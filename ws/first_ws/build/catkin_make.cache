@@ -1,2 +1,0 @@
-ctrl_turtle_pkg:demo_msgs:hello_pkg:topic_pkg
--DCATKIN_DEVEL_PREFIX=/home/zcb/ws/first_ws/devel -DCMAKE_INSTALL_PREFIX=/home/zcb/ws/first_ws/install -G Unix Makefiles

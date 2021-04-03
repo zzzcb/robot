@@ -1,8 +1,0 @@
-prefix=/home/zcb/ws/first_ws/devel
-
-Name: hello_pkg
-Description: Description of hello_pkg
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

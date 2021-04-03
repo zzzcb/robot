@@ -1,8 +1,0 @@
-prefix=/home/zcb/ws/first_ws/install
-
-Name: topic_pkg
-Description: Description of topic_pkg
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

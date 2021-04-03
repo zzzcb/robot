@@ -1,8 +1,0 @@
-prefix=/home/zcb/ws/first_ws/install
-
-Name: demo_msgs
-Description: Description of demo_msgs
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: roscpp rosmsg rospy message_runtime
