@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+<title>Producer-consumer problem in Python</title>
+
+
+<script src="/cdn-cgi/apps/head/Ymh_quvZQHXWagzzRBDGpfy_j5A.js"></script><link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+<!--  seo tags -->
+<link rel="shortcut icon" type="image/png" href="/assets/images/icon-196x196.png">
+<link rel="shortcut icon" sizes="196x196" href="/assets/images/icon-196x196.png">
+<link rel="apple-touch-icon" href="/assets/images/icon-196x196.png">
+<link rel="canonical" href="https://agiliq.com/blog/2013/10/producer-consumer-problem-in-python/">
+<link rel="alternate" type="application/rss+xml" title="Agiliq" href="https://agiliq.com/feed.xml">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://agiliq.com/sitemap.xml" />
+<!-- /end -->
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,700,700i|Noto+Sans:400,400i,700,700i|Source+Code+Pro&amp;subset=latin-ext">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="/doks-theme/assets/css/style.css">
+
+	</head>
+	<body class="green" data-spy="scroll" data-target=".js-scrollspy">
+		
+	<div class="offcanvas visible-xs">
+		<ul class="offcanvas__nav">
+			
+				<li><a href="/blog/">Blog</a></li>
+			
+				<li><a href="https://books.agiliq.com/en/latest/">Books</a></li>
+			
+				<li><a href="/about/">About Us</a></li>
+			
+				<li><a href="/contact/">Contact</a></li>
+			
+		</ul><!-- /.offcanvas__nav -->
+	</div><!-- /.offcanvas -->
+
+
+
+	<header class="site-header fixed-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					
+						<a href="/" class="site-header__logo">Agiliq</a>
+					
+					
+						<ul class="site-header__nav hidden-xs">
+							
+								<li><a href="/blog/">Blog</a></li>
+							
+								<li><a href="https://books.agiliq.com/en/latest/">Books</a></li>
+							
+								<li><a href="/about/">About Us</a></li>
+							
+								<li><a href="/contact/">Contact</a></li>
+							
+						</ul><!-- /.site-header__nav -->
+						<button class="offcanvas-toggle visible-xs">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button><!-- /.offcanvas-toggle -->
+					
+				</div><!-- /.col -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</header><!-- /.site-header -->
+
+
+		<div class="hero-subheader " ">
+			<div class="container">
+				<div class="row ">
+					<div class="col-md-7">
+						<div class="align-container" data-mh>
+							<div class="align-inner">
+								
+									<h1 class="hero-subheader__title">Producer-consumer problem in Python</h1>
+								
+								
+								
+							</div><!-- /.align-inner -->
+						</div><!-- /.align-container -->
+					</div><!-- /.col -->
+					
+						<div class="col-md-4 col-md-offset-1 hidden-xs hidden-sm">
+							<div class="align-container" data-mh>
+								<div class="align-inner">
+									<div class="hero-subheader__author">
+										<p class="hero-subheader__author-title">
+											<a href="" class="btn btn--read-more">
+												By Akshar
+												<i class="icon icon--arrow-right"></i>
+											</a>
+										</p><!-- /.hero-subheader__author-title -->
+										<p>
+											in
+											
+											
+												threads
+											,&nbsp;
+											
+												python
+											
+											
+										</p>
+									</div><!-- /.hero-subheader__author -->
+								</div><!-- /.align-inner -->
+							</div><!-- /.align-container -->
+						</div><!-- /.col -->
+					
+				</div><!-- /.row -->
+			</div><!-- /.container -->
+		</div><!-- /.hero-subheader -->
+		<div class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">
+						<div class="content">
+							<p>We will solve Producer Consumer problem in Python using Python threads. This problem is nowhere as hard as they make it sound in colleges.</p>
+
+<p>This blog will make more sense if you have some idea about <a href="https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem">Producer Consumer problem</a>.</p>
+
+<p>Why care about Producer Consumer problem:</p>
+
+<ul>
+  <li>Will help you understand more about concurrency and different concepts of concurrency.</li>
+  <li>The concept of Producer Consumer problem is used to some extent in implementing a message queue. And you will surely need message queue at some point of time.</li>
+</ul>
+
+<p>While we use threads, you will learn about the following thread topics:</p>
+
+<ul>
+  <li><strong>Condition</strong> in threads.</li>
+  <li><strong>wait()</strong> method available on Condition instances.</li>
+  <li><strong>notify()</strong> method available on Condition instances.</li>
+</ul>
+
+<p>I will assume you are comfortable with basics of Threads, race condition and how to prevent race condition i.e using locks. If not, my last post on <a href="http://agiliq.com/blog/2013/09/understanding-threads-in-python/">basics of Threads</a> should be able to help.</p>
+
+<p>Quoting Wikipedia:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The producer's job is to generate a piece of data, put it into the buffer and start again.
+At the same time, the consumer is consuming the data (i.e., removing it from the buffer) one piece at a time
+</code></pre></div></div>
+
+<p>The catch here is “At the same time”. So, producer and consumer need to run concurrently. Hence we need separate threads for Producer and Consumer.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from threading import Thread
+
+class ProducerThread(Thread):
+    def run(self):
+        pass
+
+class ConsumerThread(Thread):
+    def run(self):
+        pass
+</code></pre></div></div>
+
+<p>Quoting Wikipedia again:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The problem describes two processes, the producer and the consumer, who share a common,
+fixed-size buffer used as a queue.
+</code></pre></div></div>
+
+<p>So we keep one variable which will be global and will be modified by both Producer and Consumer threads. Producer produces data and adds it to the queue. Consumer consumes data from the queue i.e removes it from the queue.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>queue = []
+</code></pre></div></div>
+
+<p>In first iteration, we will not put fixed-size constraint on queue. We will make it fixed-size once our basic program works.</p>
+
+<p>###Initial buggy program:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from threading import Thread, Lock
+import time
+import random
+
+queue = []
+lock = Lock()
+
+class ProducerThread(Thread):
+    def run(self):
+        nums = range(5) #Will create the list [0, 1, 2, 3, 4]
+        global queue
+        while True:
+            num = random.choice(nums) #Selects a random number from list [0, 1, 2, 3, 4]
+            lock.acquire()
+            queue.append(num)
+            print "Produced", num
+            lock.release()
+            time.sleep(random.random())
+
+
+class ConsumerThread(Thread):
+    def run(self):
+        global queue
+        while True:
+            lock.acquire()
+            if not queue:
+                print "Nothing in queue, but consumer will try to consume"
+            num = queue.pop(0)
+            print "Consumed", num
+            lock.release()
+            time.sleep(random.random())
+
+
+ProducerThread().start()
+ConsumerThread().start()
+</code></pre></div></div>
+
+<p>Run it few times and notice the result. Your program might not end after raising <strong>IndexError</strong>. Use <strong>Ctrl+Z</strong> to terminate.</p>
+
+<p>Sample output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Produced 3
+Consumed 3
+Produced 4
+Consumed 4
+Produced 1
+Consumed 1
+Nothing in queue, but consumer will try to consume
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 551, in __bootstrap_inner
+    self.run()
+  File "producer_consumer.py", line 31, in run
+    num = queue.pop(0)
+IndexError: pop from empty list
+</code></pre></div></div>
+
+<p>####Explanation:</p>
+
+<ul>
+  <li>We started one producer thread(hereafter referred as producer) and one consumer thread(hereafter referred as consumer).</li>
+  <li>Producer keeps on adding to the queue and consumer keeps on removing from the queue.</li>
+  <li>Since queue is a shared variable, we keep it inside lock to avoid race condition.</li>
+  <li>At some point, consumer has consumed everything and producer is still sleeping. Consumer tries to consume more but since queue is empty, an <strong>IndexError</strong> is raised.</li>
+  <li>But on every execution, before IndexError is raised you will see the print statement telling “Nothing in queue, but consumer will try to consume”, which explains why you are getting the error.</li>
+</ul>
+
+<p>We found this implementaion as the wrong behaviour.</p>
+
+<p>####What is the correct behaviour?</p>
+
+<p>When there was nothing in the queue, consumer should have stopped running and waited instead of trying to consume from the queue. And once producer adds something to the queue, there should be a way for it to notify the consumer telling it has added something to queue. So, consumer can again consume from the queue. And thus IndexError will never be raised.</p>
+
+<h3 id="about-condition">About Condition</h3>
+
+<ul>
+  <li>Condition object allows one or more threads to wait until notified by another thread. Taken from <a href="https://docs.python.org/2/library/threading.html#condition-objects">here</a>.</li>
+</ul>
+
+<p>And this is exactly what we want. We want consumer to wait when the queue is empty and resume only when it gets notified by the producer. Producer should notify only after it adds something to the queue. So after notification from producer, we can be sure that queue is not empty and hence no error can crop if consumer consumes.</p>
+
+<ul>
+  <li>Condition is always associated with a lock.</li>
+  <li>A condition has acquire() and release() methods that call the corresponding methods of the associated lock.</li>
+</ul>
+
+<p>Condition provides acquire() and release() which calls lock’s acquire() and release() internally, and so we can replace lock instances with condition instances and our lock behaviour will keep working properly.</p>
+
+<p>Consumer needs to wait using a condition instance and producer needs to notify the consumer using the condition instance too. So, they must use the same condition instance for the wait and notify functionality to work properly.</p>
+
+<p>Let’s rewrite our Consumer and Producer code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from threading import Condition
+
+condition = Condition()
+
+class ConsumerThread(Thread):
+    def run(self):
+        global queue
+        while True:
+            condition.acquire()
+            if not queue:
+                print "Nothing in queue, consumer is waiting"
+                condition.wait()
+                print "Producer added something to queue and notified the consumer"
+            num = queue.pop(0)
+            print "Consumed", num
+            condition.release()
+            time.sleep(random.random())
+</code></pre></div></div>
+
+<p>Let’s rewrite Producer code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class ProducerThread(Thread):
+    def run(self):
+        nums = range(5)
+        global queue
+        while True:
+            condition.acquire()
+            num = random.choice(nums)
+            queue.append(num)
+            print "Produced", num
+            condition.notify()
+            condition.release()
+            time.sleep(random.random())
+</code></pre></div></div>
+
+<p>Sample output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Produced 3
+Consumed 3
+Produced 1
+Consumed 1
+Produced 4
+Consumed 4
+Produced 3
+Consumed 3
+Nothing in queue, consumer is waiting
+Produced 2
+Producer added something to queue and notified the consumer
+Consumed 2
+Nothing in queue, consumer is waiting
+Produced 2
+Producer added something to queue and notified the consumer
+Consumed 2
+Nothing in queue, consumer is waiting
+Produced 3
+Producer added something to queue and notified the consumer
+Consumed 3
+Produced 4
+Consumed 4
+Produced 1
+Consumed 1
+</code></pre></div></div>
+
+<p>####Explanation:</p>
+
+<ul>
+  <li>For consumer, we check if the queue is empty before consuming.</li>
+  <li>If yes then call <strong>wait()</strong> on condition instance.</li>
+  <li>wait() blocks the consumer and also releases the lock associated with the condition. This lock was held by consumer, so basically consumer loses hold of the lock.</li>
+  <li>Now unless consumer is notified, it will not run.</li>
+  <li>Producer can acquire the lock because lock was released by consumer.</li>
+  <li>Producer puts data in queue and calls notify() on the condition instance.</li>
+  <li>Once notify() call is made on condition, consumer wakes up. But waking up doesn’t mean it starts executing.</li>
+  <li>notify() does not release the lock. Even after notify(), lock is still held by producer.</li>
+  <li>Producer explicitly releases the lock by using condition.release().</li>
+  <li>And consumer starts running again. Now it will find data in queue and no IndexError will be raised.</li>
+</ul>
+
+<p>###Adding a max size on the queue</p>
+
+<p>Producer should not put data in the queue if the queue is full.</p>
+
+<p>It can be accomplished in the following way:</p>
+
+<ul>
+  <li>Before putting data in queue, producer should check if the queue is full.</li>
+  <li>If not, producer can continue as usual.</li>
+  <li>If the queue is full, producer must wait. So call <strong>wait()</strong> on condition instance to accomplish this.</li>
+  <li>This gives a chance to consumer to run. Consumer will consume data from queue which will create space in queue.</li>
+  <li>And then consumer should notify the producer.</li>
+  <li>Once consumer releases the lock, producer can acquire the lock and can add data to queue.</li>
+</ul>
+
+<p>Final program looks like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from threading import Thread, Condition
+import time
+import random
+
+queue = []
+MAX_NUM = 10
+condition = Condition()
+
+class ProducerThread(Thread):
+    def run(self):
+        nums = range(5)
+        global queue
+        while True:
+            condition.acquire()
+            if len(queue) == MAX_NUM:
+                print "Queue full, producer is waiting"
+                condition.wait()
+                print "Space in queue, Consumer notified the producer"
+            num = random.choice(nums)
+            queue.append(num)
+            print "Produced", num
+            condition.notify()
+            condition.release()
+            time.sleep(random.random())
+
+
+class ConsumerThread(Thread):
+    def run(self):
+        global queue
+        while True:
+            condition.acquire()
+            if not queue:
+                print "Nothing in queue, consumer is waiting"
+                condition.wait()
+                print "Producer added something to queue and notified the consumer"
+            num = queue.pop(0)
+            print "Consumed", num
+            condition.notify()
+            condition.release()
+            time.sleep(random.random())
+
+
+ProducerThread().start()
+ConsumerThread().start()
+</code></pre></div></div>
+
+<p>Sample output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Produced 0
+Consumed 0
+Produced 0
+Produced 4
+Consumed 0
+Consumed 4
+Nothing in queue, consumer is waiting
+Produced 4
+Producer added something to queue and notified the consumer
+Consumed 4
+Produced 3
+Produced 2
+Consumed 3
+</code></pre></div></div>
+
+<h3 id="update">Update:</h3>
+<p>Many people on the internet suggested that I use Queue.Queue instead of using a list with conditions and lock. I agree, but I wanted to show how Conditions, wait() and notify() work so I took this approach.</p>
+
+<p>Let’s update our code to use Queue.</p>
+
+<p>Queue encapsulates the behaviour of Condition, wait(), notify(), acquire() etc.</p>
+
+<p>Now is a good time to read the <a href="https://docs.python.org/2/library/queue.html">documentation for Queue</a> and the source code for it.</p>
+
+<p>Updated program:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from threading import Thread
+import time
+import random
+from Queue import Queue
+
+queue = Queue(10)
+
+class ProducerThread(Thread):
+    def run(self):
+        nums = range(5)
+        global queue
+        while True:
+            num = random.choice(nums)
+            queue.put(num)
+            print "Produced", num
+            time.sleep(random.random())
+
+
+class ConsumerThread(Thread):
+    def run(self):
+        global queue
+        while True:
+            num = queue.get()
+            queue.task_done()
+            print "Consumed", num
+            time.sleep(random.random())
+
+
+ProducerThread().start()
+ConsumerThread().start()
+</code></pre></div></div>
+
+<h4 id="explanation">Explanation</h4>
+<ul>
+  <li>In place of list, we are using a Queue instance(hereafter queue).</li>
+  <li>queue has a <strong>Condition</strong> and that condition has its lock. You don’t need to bother about Condition and Lock if you use Queue.</li>
+  <li>Producer uses <strong>put</strong> available on queue to insert data in the queue.</li>
+  <li>put() has the logic to acquire the lock before inserting data in queue.</li>
+  <li>Also put() checks whether the queue is full. If yes, then it calls <strong>wait()</strong> internally and so producer starts waiting.</li>
+  <li>Consumer uses <strong>get</strong>.</li>
+  <li>get() acquires the lock before removing data from queue.</li>
+  <li>get() checks if the queue is empty. If yes, it puts consumer in waiting state.</li>
+  <li>get() and put() has proper logic for notify() too. Why don’t you check the source code for Queue now?</li>
+</ul>
+
+<p>eue now?</p>
+
+
+
+<div class="callout callout--success">
+    <script src="https://gumroad.com/js/gumroad.js"></script>
+    <a class="gumroad-button" href="https://gum.co/mlfNq" target="_blank" rel="no-follow">Buy Django ORM Cookbook</a>
+</div><div class="callout callout--success">
+    <p>Thank you for reading the Agiliq blog. This article was written by Akshar on Oct 17, 2013 in
+        
+          <a href="/categories/#threads" rel="nofollow">threads</a>
+      ,&nbsp;
+      
+          <a href="/categories/#python" rel="nofollow">python</a>
+      
+      .
+    </p>
+    <p>You can <a href="/feed.xml">subscribe ⚛ to our blog</a>.</p>
+
+    <p>We love building amazing apps for web and mobile for our clients. If you are looking for development help, <a href="/contact/">contact us today ✉</a>.</p>
+</div>
+
+<div class="callout callout--success">
+  <p>
+    Would you like to download 10+ free Django and Python books?
+    <a href="https://books.agiliq.com" target="_blank">
+      Get them here
+    </a>
+  </p>
+  <a href="https://books.agiliq.com" target="_blank">
+    <img src="/assets/images/book-covers-merged.png" />
+  </a>
+</div>
+<!-- json+ld -->
+<script type="application/ld+json">
+{  
+   "@context":"http://schema.org",
+   "@type":"TechArticle",
+   "headline":"Producer-consumer problem in Python",
+   "genre":"",
+   "keywords":"",
+   "url":"https://www.agiliq.com",
+   "datePublished":"2013-10-17",
+   "dateModified":"2021-02-04",
+   "author":{  
+      "@type":"Person",
+      "name":"Akshar"
+   },
+   "publisher":{  
+      "@type":"Organization",
+      "name":"Agiliq Info Solutions India Pvt Ltd",
+      "sameAs":[  
+        "https://twitter.com/agiliqdotcom",
+        "https://github.com/agiliq",
+        "https://www.facebook.com/agiliq"
+      ],
+      "logo": {
+      "@type": "ImageObject",
+      "contentUrl": "https://www.agiliq.com/assets/images/logo.png",
+      "url": "https://www.agiliq.com/"
+    }
+   },
+   "image":{  
+      "@type":"ImageObject",
+      "contentUrl": "https://www.agiliq.com/assets/images/logo.png",
+      "url":"https://www.agiliq.com",
+      "width":"450",
+      "height":"300"
+   },
+   "mainEntityOfPage":{  
+      "@type":"WebPage",
+      "@id":"https://www.agiliq.com"
+   },
+   "articleBody":"We will solve Producer Consumer problem in Python using Python threads. This problem is nowhere as hard as they make it sound in colleges.This blog will make more sense if you have some idea about Producer Consumer problem.Why care about Producer Consumer problem:  Will help you understand more about concurrency and different concepts of concurrency.  The concept of Producer Consumer problem is used to some extent in implementing a message queue. And you will surely need message queue at some point of time.While we use threads, you will learn about the following thread topics:  Condition in threads.  wait() method available on Condition instances.  notify() method available on Condition instances.I will assume you are comfortable with basics of Threads, race condition and how to prevent race condition i.e using locks. If not, my last post on basics of Threads should be able to help.Quoting Wikipedia:The producer's job is to generate a piece of data, put it into the buffer and start again.At the same time, the consumer is consuming the data (i.e., removing it from the buffer) one piece at a timeThe catch here is “At the same time”. So, producer and consumer need to run concurrently. Hence we need separate threads for Producer and Consumer.from threading import Threadclass ProducerThread(Thread):    def run(self):        passclass ConsumerThread(Thread):    def run(self):        passQuoting Wikipedia again:The problem describes two processes, the producer and the consumer, who share a common,fixed-size buffer used as a queue.So we keep one variable which will be global and will be modified by both Producer and Consumer threads. Producer produces data and adds it to the queue. Consumer consumes data from the queue i.e removes it from the queue.queue = []In first iteration, we will not put fixed-size constraint on queue. We will make it fixed-size once our basic program works.###Initial buggy program:from threading import Thread, Lockimport timeimport randomqueue = []lock = Lock()class ProducerThread(Thread):    def run(self):        nums = range(5) #Will create the list [0, 1, 2, 3, 4]        global queue        while True:            num = random.choice(nums) #Selects a random number from list [0, 1, 2, 3, 4]            lock.acquire()            queue.append(num)            print &quot;Produced&quot;, num            lock.release()            time.sleep(random.random())class ConsumerThread(Thread):    def run(self):        global queue        while True:            lock.acquire()            if not queue:                print &quot;Nothing in queue, but consumer will try to consume&quot;            num = queue.pop(0)            print &quot;Consumed&quot;, num            lock.release()            time.sleep(random.random())ProducerThread().start()ConsumerThread().start()Run it few times and notice the result. Your program might not end after raising IndexError. Use Ctrl+Z to terminate.Sample output:Produced 3Consumed 3Produced 4Consumed 4Produced 1Consumed 1Nothing in queue, but consumer will try to consumeException in thread Thread-2:Traceback (most recent call last):  File &quot;/usr/lib/python2.7/threading.py&quot;, line 551, in __bootstrap_inner    self.run()  File &quot;producer_consumer.py&quot;, line 31, in run    num = queue.pop(0)IndexError: pop from empty list####Explanation:  We started one producer thread(hereafter referred as producer) and one consumer thread(hereafter referred as consumer).  Producer keeps on adding to the queue and consumer keeps on removing from the queue.  Since queue is a shared variable, we keep it inside lock to avoid race condition.  At some point, consumer has consumed everything and producer is still sleeping. Consumer tries to consume more but since queue is empty, an IndexError is raised.  But on every execution, before IndexError is raised you will see the print statement telling “Nothing in queue, but consumer will try to consume”, which explains why you are getting the error.We found this implementaion as the wrong behaviour.####What is the correct behaviour?When there was nothing in the queue, consumer should have stopped running and waited instead of trying to consume from the queue. And once producer adds something to the queue, there should be a way for it to notify the consumer telling it has added something to queue. So, consumer can again consume from the queue. And thus IndexError will never be raised.About Condition  Condition object allows one or more threads to wait until notified by another thread. Taken from here.And this is exactly what we want. We want consumer to wait when the queue is empty and resume only when it gets notified by the producer. Producer should notify only after it adds something to the queue. So after notification from producer, we can be sure that queue is not empty and hence no error can crop if consumer consumes.  Condition is always associated with a lock.  A condition has acquire() and release() methods that call the corresponding methods of the associated lock.Condition provides acquire() and release() which calls lock’s acquire() and release() internally, and so we can replace lock instances with condition instances and our lock behaviour will keep working properly.Consumer needs to wait using a condition instance and producer needs to notify the consumer using the condition instance too. So, they must use the same condition instance for the wait and notify functionality to work properly.Let’s rewrite our Consumer and Producer code:from threading import Conditioncondition = Condition()class ConsumerThread(Thread):    def run(self):        global queue        while True:            condition.acquire()            if not queue:                print &quot;Nothing in queue, consumer is waiting&quot;                condition.wait()                print &quot;Producer added something to queue and notified the consumer&quot;            num = queue.pop(0)            print &quot;Consumed&quot;, num            condition.release()            time.sleep(random.random())Let’s rewrite Producer code:class ProducerThread(Thread):    def run(self):        nums = range(5)        global queue        while True:            condition.acquire()            num = random.choice(nums)            queue.append(num)            print &quot;Produced&quot;, num            condition.notify()            condition.release()            time.sleep(random.random())Sample output:Produced 3Consumed 3Produced 1Consumed 1Produced 4Consumed 4Produced 3Consumed 3Nothing in queue, consumer is waitingProduced 2Producer added something to queue and notified the consumerConsumed 2Nothing in queue, consumer is waitingProduced 2Producer added something to queue and notified the consumerConsumed 2Nothing in queue, consumer is waitingProduced 3Producer added something to queue and notified the consumerConsumed 3Produced 4Consumed 4Produced 1Consumed 1####Explanation:  For consumer, we check if the queue is empty before consuming.  If yes then call wait() on condition instance.  wait() blocks the consumer and also releases the lock associated with the condition. This lock was held by consumer, so basically consumer loses hold of the lock.  Now unless consumer is notified, it will not run.  Producer can acquire the lock because lock was released by consumer.  Producer puts data in queue and calls notify() on the condition instance.  Once notify() call is made on condition, consumer wakes up. But waking up doesn’t mean it starts executing.  notify() does not release the lock. Even after notify(), lock is still held by producer.  Producer explicitly releases the lock by using condition.release().  And consumer starts running again. Now it will find data in queue and no IndexError will be raised.###Adding a max size on the queueProducer should not put data in the queue if the queue is full.It can be accomplished in the following way:  Before putting data in queue, producer should check if the queue is full.  If not, producer can continue as usual.  If the queue is full, producer must wait. So call wait() on condition instance to accomplish this.  This gives a chance to consumer to run. Consumer will consume data from queue which will create space in queue.  And then consumer should notify the producer.  Once consumer releases the lock, producer can acquire the lock and can add data to queue.Final program looks like:from threading import Thread, Conditionimport timeimport randomqueue = []MAX_NUM = 10condition = Condition()class ProducerThread(Thread):    def run(self):        nums = range(5)        global queue        while True:            condition.acquire()            if len(queue) == MAX_NUM:                print &quot;Queue full, producer is waiting&quot;                condition.wait()                print &quot;Space in queue, Consumer notified the producer&quot;            num = random.choice(nums)            queue.append(num)            print &quot;Produced&quot;, num            condition.notify()            condition.release()            time.sleep(random.random())class ConsumerThread(Thread):    def run(self):        global queue        while True:            condition.acquire()            if not queue:                print &quot;Nothing in queue, consumer is waiting&quot;                condition.wait()                print &quot;Producer added something to queue and notified the consumer&quot;            num = queue.pop(0)            print &quot;Consumed&quot;, num            condition.notify()            condition.release()            time.sleep(random.random())ProducerThread().start()ConsumerThread().start()Sample output:Produced 0Consumed 0Produced 0Produced 4Consumed 0Consumed 4Nothing in queue, consumer is waitingProduced 4Producer added something to queue and notified the consumerConsumed 4Produced 3Produced 2Consumed 3Update:Many people on the internet suggested that I use Queue.Queue instead of using a list with conditions and lock. I agree, but I wanted to show how Conditions, wait() and notify() work so I took this approach.Let’s update our code to use Queue.Queue encapsulates the behaviour of Condition, wait(), notify(), acquire() etc.Now is a good time to read the documentation for Queue and the source code for it.Updated program:from threading import Threadimport timeimport randomfrom Queue import Queuequeue = Queue(10)class ProducerThread(Thread):    def run(self):        nums = range(5)        global queue        while True:            num = random.choice(nums)            queue.put(num)            print &quot;Produced&quot;, num            time.sleep(random.random())class ConsumerThread(Thread):    def run(self):        global queue        while True:            num = queue.get()            queue.task_done()            print &quot;Consumed&quot;, num            time.sleep(random.random())ProducerThread().start()ConsumerThread().start()Explanation  In place of list, we are using a Queue instance(hereafter queue).  queue has a Condition and that condition has its lock. You don’t need to bother about Condition and Lock if you use Queue.  Producer uses put available on queue to insert data in the queue.  put() has the logic to acquire the lock before inserting data in queue.  Also put() checks whether the queue is full. If yes, then it calls wait() internally and so producer starts waiting.  Consumer uses get.  get() acquires the lock before removing data from queue.  get() checks if the queue is empty. If yes, it puts consumer in waiting state.  get() and put() has proper logic for notify() too. Why don’t you check the source code for Queue now?eue now?",
+   "description": ""
+}
+</script>
+<!-- bread crumbs -->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "https://www.agiliq.com/",
+      "name": "Home",
+      "image": "https://www.agiliq.com/assets/images/logo.png"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "https://www.agiliq.com/blog/",
+      "name": "Blog",
+      "image": "https://www.agiliq.com/assets/images/logo.png"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "item": {
+      "@id": "https://www.agiliq.com",
+      "name": "",
+      "image": "https://www.agiliq.com/assets/images/logo.png"
+    }
+  }]
+}
+</script>
+
+						</div><!-- /.content -->
+					</div><!-- /.col -->
+					
+					<div class="col-md-4 col-md-offset-1">
+						<div class="sections-list-wrapper">
+							<div class="sections-list js-sections js-affix js-scrollspy hidden-xs hidden-sm"></div><!-- /.sections-list -->
+						</div>
+					</div><!-- /.col -->
+					
+				</div><!-- /.row -->
+			</div><!-- /.container -->
+		</div><!-- /.section -->
+		
+			<div class="section section--grey">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-7">
+							<div id="disqus_thread"></div>
+<script>
+	/**
+	 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+	 */
+	 /*
+	var disqus_config = function () {
+	this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+	*/
+	(function() {
+		var d = document, s = d.createElement('script');
+
+		s.src = 'https://disqusagiliq.disqus.com/embed.js';
+
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.container -->
+			</div><!-- /.section -->
+		
+		<div class="js-footer-area">
+			
+			
+			
+	<footer class="site-footer dark-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					
+						<a href="/" class="site-footer__logo">Agiliq</a>
+					
+					
+						<hr>
+						<p class="site-footer__copyright text-white">Building Amazing Apps. &copy; 2010-2018,  Agiliq <br>All rights reserved.</p>
+					
+				</div><!-- /.col -->
+				
+				<div class="col-sm-5">
+				    <ul class="footer-links">
+						    <li><a href="">About Us</a></li>
+						    <li><a href="/blog/">Blog</a></li>
+						    <li><a href="//books.agiliq.com">Books</a></li>
+						    <li><a href="/newsletter/">Newsletter</a></li>
+						</ul>
+				</div>
+				
+				
+					<div class="col-sm-3">
+						<ul class="social-list">
+							
+								<li>
+									<a href="https://facebook.com/agiliq" target="_blank" class="social-list__item social-list__item--facebook">
+										<i class="icon icon--facebook"></i>
+									</a>
+								</li>
+							
+								<li>
+									<a href="https://twitter.com/agiliqdotcom" target="_blank" class="social-list__item social-list__item--twitter">
+										<i class="icon icon--twitter"></i>
+									</a>
+								</li>
+							
+								<li>
+									<a href="https://github.com/agiliq" target="_blank" class="social-list__item social-list__item--github">
+										<i class="icon icon--github"></i>
+									</a>
+								</li>
+							
+								<li>
+									<a href="https://stackoverflow.com/users/121793/agiliq" target="_blank" class="social-list__item social-list__item--stackoverflow">
+										<i class="icon icon--stackoverflow"></i>
+									</a>
+								</li>
+							
+						</ul><!-- /.social-list -->
+						<div class="footer-contact-us">
+							<p>
+								Email &nbsp;us : <strong><a href="/cdn-cgi/l/email-protection#3d55585151527d5c5a5451544c135e5250"><span class="__cf_email__" data-cfemail="3159545d5d5e715056585d58401f525e5c">[email&#160;protected]</span></a></strong>
+							</p>
+							<p>Phone us: 
+								<strong><a href="tel:+919949997612">+919949997612</a></strong>
+							</p>
+						</div>
+						
+					</div><!-- /.col -->
+				
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</footer><!-- /.site-footer -->
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/doks-theme/assets/js/vendor/jquery.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/vendor/bootstrap/affix.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/vendor/bootstrap/scrollspy.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/vendor/matchHeight.min.js"></script>
+<script type="text/javascript" src="/doks-theme/assets/js/scripts.min.js"></script>
+
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-367368-15', 'auto');
+	ga('send', 'pageview');
+</script>
+
+
+
+		</div><!-- /.js-footer-area -->
+	</body>
+</html>
