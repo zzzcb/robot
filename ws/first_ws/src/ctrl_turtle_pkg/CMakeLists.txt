@@ -145,7 +145,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/ctrl_turtle_pkg_node.cpp)
 add_executable(ctrl_turtle src/ctrl_turtle.cpp)
-add_executable(ctrl_turtle_oop src/ctrl_trutle_oop.cpp src/VelocityWindow.cpp)
+add_executable(ctrl_turtle_oop src/ctrl_turtle_oop.cpp src/VelocityWindow.cpp)
+add_executable(ctrl_turtle_display_pose src/ctrl_turtle_display_pose.cpp src/VelocityWindow2.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -169,6 +170,13 @@ target_link_libraries(ctrl_turtle
   Qt5::PrintSupport
 )
 target_link_libraries(ctrl_turtle_oop
+  ${catkin_LIBRARIES}
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
+  Qt5::PrintSupport
+)
+target_link_libraries(ctrl_turtle_display_pose
   ${catkin_LIBRARIES}
   Qt5::Core
   Qt5::Gui
