@@ -1,0 +1,7 @@
+# request
+float64 a
+float64 b
+string option
+---
+# response
+float64 result
