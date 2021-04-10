@@ -139,7 +139,10 @@ add_executable(hello_server src/hello_server.cpp)
 add_executable(hello_client src/hello_client.cpp)
 add_executable(server_custom_srv src/server_custom_srv.cpp)
 add_executable(client_custom_srv src/client_custom_srv.cpp)
-
+add_executable(server_custom_srv2 src/server_custom_srv2.cpp)
+add_executable(client_custom_srv2 src/client_custom_srv2.cpp)
+add_executable(server_custom_srv3 src/server_custom_srv3.cpp)
+add_executable(client_custom_srv3 src/client_custom_srv3.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -173,6 +176,26 @@ target_link_libraries(
 target_link_libraries(
     client_custom_srv
     ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+        server_custom_srv2
+        ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+        client_custom_srv2
+        ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+        server_custom_srv3
+        ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+        client_custom_srv3
+        ${catkin_LIBRARIES}
 )
 
 #############

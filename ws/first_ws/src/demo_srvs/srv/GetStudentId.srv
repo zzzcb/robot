@@ -1,0 +1,5 @@
+# request
+demo_msgs/Student stu
+---
+# response
+string id
