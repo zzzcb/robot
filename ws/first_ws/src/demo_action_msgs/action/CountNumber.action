@@ -1,0 +1,9 @@
+# goal
+int64 goalNum
+float64 duration
+---
+# result
+int64 resNum
+---
+# feedback
+float64 percent

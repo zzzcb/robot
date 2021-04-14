@@ -17,6 +17,7 @@ int main(int argc,char** argv){
     ros::init(argc,argv,nodeName);
     ros::NodeHandle node;
 
+
     // node.subscribe() 返回的对象一定要接受，不然就会被c++ 回收了
     ros::Subscriber sub = node.subscribe("/cpp/topic",1000,topicCallback);
 
