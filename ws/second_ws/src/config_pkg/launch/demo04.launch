@@ -1,0 +1,62 @@
+<launch>
+
+    <!--
+     node 内部标签
+     remap 重新映射, 可以动态的修改topic的名称(publisher subscriber)
+                    可以动态的修改service的名称
+     -->
+
+    <!--
+     node标签的属性配置
+     pkg: 表示要启动的包
+     type: 可执行文件的名称
+     name: 节点名称
+     respawn: 重启    true|false(默认)
+     respawn_delay: 多久后重启 单位是s
+
+     output: 日志输出 screen | log(默认)
+
+     ns: namespace, 名称空间
+     -->
+
+     <node pkg="turtlesim"
+           type="turtlesim_node"
+           name="turtle"
+           respawn="true"
+           respawn_delay="3"
+           output="screen"
+           ns="hello">
+
+           <!--
+            重新映射
+            1.修改subscriber的topic
+            from是原来的名称
+            to修改后的名称 /hello/vel
+            -->
+           <!-- <remap from="/hello/turtle1/cmd_vel" to="vel"></remap> -->
+
+            <!--
+            加 / 为全局的
+            不加 默认会在前面补上 ns
+            -->
+           <remap from="/hello/turtle1/cmd_vel" to="/vel"></remap>
+
+
+            <!--
+             publisher
+             -->
+           <remap from="/hello/turtle1/pose" to="/pose"></remap>
+
+            <!-- service -->
+            <remap from="/hello/clear" to="/abcdefg"></remap>
+
+     </node>
+
+     <node pkg="turtlesim"
+           type="turtle_teleop_key"
+           name="teleop_key">
+     </node>
+
+
+
+</launch>

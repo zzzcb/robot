@@ -1,0 +1,29 @@
+<launch>
+
+    <!--
+    全局arg
+    把当前 .launch 文件看做可执行文件，传入当前.launch文件
+       name: 启动launch file的时候，配置的参数中 name名称
+       default: 如果启动的时候没有配置这个名称，就给当前这个默认值
+       launch file启动参数配置规范：
+       xxx:=yyy
+
+    arg 已经传入了 当前launch ,如何使用呢？
+        $(arg name)
+    -->
+    <arg name="port" default="80"></arg>
+    <arg name="bgr" default="88"></arg>
+    <arg name="bgg" default="55"></arg>
+    <arg name="bgb" default="33"></arg>
+
+     <node pkg="turtlesim"
+           type="turtlesim_node"
+           name="turtle">
+        <!-- 如果启动当前launch文件时，不设置bgr,g,b, 就会使用默认的 -->
+        <param name="background_r" value="$(arg bgr)" type="int"></param>
+        <param name="background_g" value="$(arg bgg)" type="int"></param>
+        <param name="background_b" value="$(arg bgb)" type="int"></param>
+
+     </node>
+
+</launch>

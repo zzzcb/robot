@@ -1,0 +1,11 @@
+<launch>
+
+    <!--
+    3个必须的参数
+    pkg:要启动的包名
+    type:可执行文件的名称
+    name:节点名称,它能覆盖可执行文件中已经配置的nodeName
+    -->
+    <node pkg="turtlesim" type="turtlesim_node" name="zcb"></node>
+
+</launch>

@@ -1,0 +1,25 @@
+<launch>
+
+    <!--
+     group 下面放node
+
+     ns: 配置名称空间
+
+     node的全称： /groupNs/nodeNs/nodeName/
+     -->
+
+     <group ns="a">
+        <node pkg="turtlesim"
+                   type="turtlesim_node"
+                   name="turtle"
+                   >
+        </node>
+     </group>
+     <group ns="b">
+        <node pkg="turtlesim"
+                   type="turtlesim_node"
+                   name="turtle"
+                   >
+        </node>
+     </group>
+</launch>

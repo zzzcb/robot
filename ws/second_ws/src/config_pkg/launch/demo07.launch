@@ -1,0 +1,15 @@
+<launch>
+
+    <!--
+    args 空格分割开
+    -->
+    <node pkg="config_pkg"
+          type="args_use"
+          name="zcb"
+          output="screen"
+          args="a=1 b=2 c d=4"
+          >
+    </node>
+
+
+</launch>

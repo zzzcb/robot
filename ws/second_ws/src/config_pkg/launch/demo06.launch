@@ -1,0 +1,41 @@
+<launch>
+
+    <!--
+     全局param设置  param 没有在 node中 ，此时没有ns/nodeName不受node制约
+     -->
+
+     <param name="key1" value="hello" type="str"></param>
+     <param name="key2" value="123" type="int"></param>
+     <param name="key3" value="3.1415926" type="double"></param>
+     <param name="key4" value="true" type="bool"></param>
+
+     <node pkg="turtlesim"
+           type="turtlesim_node"
+           name="turtle"
+           respawn="true"
+           respawn_delay="3"
+           output="screen"
+           ns="hello">
+
+        <!--
+         name: key
+         value: 设置的值
+         type: 数据的类型(str|int|double|bool)
+
+         存储到 master中 名称为 /ns/nodeName/key
+         -->
+
+        <param name="background_r" value="255" type="int"></param>
+        <param name="background_g" value="100" type="int"></param>
+        <param name="background_b" value="255" type="int"></param>
+
+     </node>
+
+     <node pkg="turtlesim"
+           type="turtle_teleop_key"
+           name="teleop_key">
+     </node>
+
+
+
+</launch>

@@ -1,0 +1,16 @@
+<launch>
+
+    <!-- node 的属性
+    3个必须的参数
+    pkg:要启动的包名
+    type:可执行文件的名称
+    name:节点名称,它能覆盖可执行文件中已经配置的nodeName
+    其他的属性：
+    respawn：进程死掉后是否重启。取值为true或false。默认值为false
+    respawn_delay: 重启的时间间隔。单位为秒，默认值为0
+    output：将日志输入到什么位置。screen|log。默认值log。
+    ns: 命名空间 ,避免节点名称重复,对应的topic，service也会加上ns
+    -->
+    <node pkg="turtlesim" type="turtlesim_node" name="zcb"></node>
+
+</launch>

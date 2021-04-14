@@ -1,0 +1,55 @@
+<launch>
+
+    <!--
+     node 内部标签
+     param: param 数据设置，在启动节点的时候，向rosmaster里面存储一些数据
+     -->
+
+    <!--
+     node标签的属性配置
+     pkg: 表示要启动的包
+     type: 可执行文件的名称
+     name: 节点名称
+     respawn: 重启    true|false(默认)
+     respawn_delay: 多久后重启 单位是s
+
+     output: 日志输出 screen | log(默认)
+
+     ns: namespace, 名称空间
+     -->
+
+     <node pkg="turtlesim"
+           type="turtlesim_node"
+           name="turtle"
+           respawn="true"
+           respawn_delay="3"
+           output="screen"
+           ns="hello">
+
+        <!--
+         name: key
+         value: 设置的值
+         type: 数据的类型(str|int|double|bool)
+
+         存储到 master中 名称为 /ns/nodeName/key
+         -->
+
+        <param name="key1" value="hello" type="str"></param>
+        <param name="key2" value="123" type="int"></param>
+        <param name="key3" value="3.1415926" type="double"></param>
+        <param name="key4" value="true" type="bool"></param>
+
+        <param name="background_r" value="255" type="int"></param>  <!-- 修改background_r,g,b 它们已经存在于Master了-->
+        <param name="background_g" value="100" type="int"></param>
+        <param name="background_b" value="255" type="int"></param>
+
+     </node>
+
+     <node pkg="turtlesim"
+           type="turtle_teleop_key"
+           name="teleop_key">
+     </node>
+
+
+
+</launch>

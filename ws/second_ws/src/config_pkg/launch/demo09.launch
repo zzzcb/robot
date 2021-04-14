@@ -1,0 +1,21 @@
+<launch>
+
+    <!--
+     launch file的嵌套
+
+     include标签
+
+     $(find pkg): find命令 pkg具体的包名，找到包的绝对位置
+     -->
+
+     <node pkg="turtlesim"
+           type="turtlesim_node"
+           name="turtle"
+           >
+     </node>
+
+	  <!-- 也会执行 demo08.launch -->
+     <include file="$(find config_pkg)/launch/demo08.launch"></include>
+
+
+</launch>
