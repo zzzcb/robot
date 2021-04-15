@@ -1,0 +1,18 @@
+<launch>
+    <!-- name 均为默认值-->
+    <node pkg="turtlesim" type="turtlesim_node" name="turtlesim"></node>
+    <node pkg="turtlesim" type="turtle_teleop_key" name="teleop_turtle"></node>
+    <node pkg="tf_pkg" type="demo03_follow" name="demo03_follow_node" output="screen"></node> <!-- node 的目的是 发送service到turtlesim spawn一个新的小乌龟 -->
+    <node pkg="tf_pkg" type="demo03_upload_turtle1_pos" name="demo03_upload_turtle1_pos_node" output="screen"></node> <!-- 这个node的目的是获取turtle1的实时位置并上传到tf -->
+
+<!--      rviz 可视化node -->
+    <node
+        pkg="rviz"
+        type="rviz"
+        name="rviz"
+        args="-d $(find tf_pkg)/rviz/demo.rviz"
+    > <!-- -d 是load rviz  配置文件,文件一定要是绝对路经  find 寻找包所在的绝对路径 -->
+    </node>
+
+
+</launch>
