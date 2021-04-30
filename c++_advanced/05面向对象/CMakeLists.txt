@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 2.6)
+project(05面向对象)
+set(CMAKE_CXX_STANDARD 11)
+
+
+
+add_executable(01default_copy_construct 01default_copy_construct.cpp)
+add_executable(02override_default_copy_construct_bug 02override_default_copy_construct_bug.cpp)
+
+add_executable(03override_default_copy_construct_00 03override_default_copy_construct_00.cpp)
+add_executable(03override_default_copy_construct_01 03override_default_copy_construct_01.cpp)
+
+add_executable(04const_member_function 04const_member_function.cpp)
+
+
+add_executable(05static_member 05static_member.cpp)
+
+add_executable(06friend 06friend.cpp)
+
