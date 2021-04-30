@@ -3,17 +3,32 @@ project(05面向对象)
 set(CMAKE_CXX_STANDARD 11)
 
 
-
+# 拷贝构造函数
 add_executable(01default_copy_construct 01default_copy_construct.cpp)
 add_executable(02override_default_copy_construct_bug 02override_default_copy_construct_bug.cpp)
-
 add_executable(03override_default_copy_construct_00 03override_default_copy_construct_00.cpp)
 add_executable(03override_default_copy_construct_01 03override_default_copy_construct_01.cpp)
 
+# 常函数  和 常对象
 add_executable(04const_member_function 04const_member_function.cpp)
 
-
+# 静态成员
 add_executable(05static_member 05static_member.cpp)
 
+# 友元
 add_executable(06friend 06friend.cpp)
+
+# 
+add_executable(07operator_overload_member_func 07operator_overload_member_func.cpp)
+add_executable(07operator_overload_global_func 07operator_overload_global_func.cpp)
+add_executable(08operator_overload_cout 08operator_overload_cout.cpp)
+add_executable(09operator_overload_cin 09operator_overload_cin.cpp)
+add_executable(10operator_overload_assign 10operator_overload_assign.cpp)
+add_executable(11operator_overload_call 11operator_overload_call.cpp)
+
+
+
+
+
+
 
