@@ -1,0 +1,5 @@
+float64 a
+float64 b
+string op
+---
+float64 res
