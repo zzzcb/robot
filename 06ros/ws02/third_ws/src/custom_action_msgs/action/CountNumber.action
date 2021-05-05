@@ -1,0 +1,6 @@
+int64 max
+float64 duration
+---
+int64 result
+---
+float64 rate
