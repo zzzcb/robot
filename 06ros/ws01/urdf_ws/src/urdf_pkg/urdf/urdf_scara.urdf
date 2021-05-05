@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="box">
+    <material name="red">
+        <color rgba="1 0 0 0.8"></color>
+    </material>
+    <material name="green">
+        <color rgba="0 1 0 0.8"></color>
+    </material>
+    <material name="blue">
+        <color rgba="0 0 1 0.8"></color>
+    </material>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <cylinder length="1" radius="0.3"></cylinder>
+            </geometry>
+            <material name="red"></material>
+            <origin xyz="0 0 0.5"></origin>
+        </visual>
+    </link>
+    <link name="link1">
+        <visual>
+            <geometry>
+                <box size="0.6 0.5 0.1"></box>
+            </geometry>
+            <material name="green"></material>
+            <origin xyz="0 0.25 0.05"></origin>
+        </visual>
+    </link>
+    <link name="link2">
+        <visual>
+            <geometry>
+                <box size="0.6 0.8 0.5"></box>
+            </geometry>
+            <material name="blue"></material>
+            <origin xyz="0 0.4 0.25"></origin>
+        </visual>
+    </link>
+    <link name="link3">
+        <visual>
+            <geometry>
+                <cylinder length="1.6" radius="0.1"></cylinder>
+            </geometry>
+            <material name="red"></material>
+            <origin xyz="0 0 0.8"></origin>
+        </visual>
+    </link>
+
+    <!-- joint -->
+    <joint name="joint0" type="revolute">
+        <origin xyz="0 0 1"></origin>
+        <parent link="base_link"></parent>
+        <child link="link1"></child>
+        <axis xyz="0 0 1"></axis>
+        <limit effort="30" velocity="1" lower="-1.57" upper="1.57"></limit>
+    </joint>
+    <joint name="joint1" type="revolute">
+        <origin xyz="0 0.5 0.1"></origin>
+        <parent link="link1"></parent>
+        <child link="link2"></child>
+
+        <axis xyz="0 0 1"></axis>
+        <limit effort="30" velocity="1" lower="-1.57" upper="1.57"></limit>
+    </joint>
+    <joint name="joint2" type="prismatic">
+        <origin xyz="0 0.8 0"></origin>
+        <parent link="link2"></parent>
+        <child link="link3"></child>
+        <axis xyz="0 0 1"></axis>
+        <limit effort="30" velocity="1" lower="-1.1" upper="0"></limit>
+    </joint>
+
+</robot>

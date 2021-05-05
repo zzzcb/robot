@@ -1,0 +1,14 @@
+<launch>
+
+    <arg name="model" default="ur5.urdf"></arg><!-- 通过 := 进行赋值  -->
+    <param name="robot_description" command="$(find xacro)/xacro -i $(find ur5_pkg)/urdf/$(arg model)"></param>
+    <param name="use_gui" value="true"></param> <!-- revolute joint 中操控,第一次需要sudo apt install ros-melodic-joint-state-publisher-gui -->
+
+    <!-- 下面两行 state 需要起来，不然会joint时会报 state的错 -->
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"></node>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"></node>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ur5_pkg)/rviz/ur5.rviz"></node>
+
+
+</launch>

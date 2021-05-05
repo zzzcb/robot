@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="box" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- if condition
+     -->
+    <xacro:macro name="COLOR_TMP" params="color_name">
+        <material name="${color_name}">
+            <xacro:if value="${color_name=='red'}">
+                <color rgba="1 0 0 0.8"></color>
+            </xacro:if>
+            <xacro:if value="${color_name=='green'}">
+                <color rgba="0 1 0 0.8"></color>
+            </xacro:if>
+            <xacro:if value="${color_name=='blue'}"> <!-- don't have space in condition express -->
+                <color rgba="0 0 1 0.8"></color>
+            </xacro:if>
+        </material>
+    </xacro:macro>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="1 2 3"></box>
+            </geometry>
+            <xacro:COLOR_TMP color_name="green" />
+        </visual>
+    </link>
+
+
+</robot>
+

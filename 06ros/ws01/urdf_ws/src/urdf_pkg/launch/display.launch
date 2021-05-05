@@ -1,0 +1,9 @@
+<launch>
+    <arg name="model" default="helloworld.urdf"></arg><!-- 通过 := 进行赋值  -->
+    <param name="robot_description" command="$(find xacro)/xacro -i $(find urdf_pkg)/urdf/$(arg model)"></param>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find urdf_pkg)/rviz/link.rviz"></node>
+
+</launch>
+
+
+

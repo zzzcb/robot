@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="mesh">
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://urdf_pkg/meshes/bowl.dae"></mesh>
+            </geometry>
+        </visual>
+    </link>
+</robot>

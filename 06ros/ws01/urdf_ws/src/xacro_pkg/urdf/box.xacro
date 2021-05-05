@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="box" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="length" value="2"></xacro:property>
+    <xacro:property name="width" value="2"></xacro:property>
+    <xacro:property name="height" value="2"></xacro:property>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="${length} ${width} ${height}"></box>
+            </geometry>
+        </visual>
+    </link>
+</robot>

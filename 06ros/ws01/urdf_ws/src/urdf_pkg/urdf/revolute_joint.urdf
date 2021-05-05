@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="box">
+    <material name="red">
+        <color rgba="1 0 0 0.8"></color>
+    </material>
+    <material name="green">
+        <color rgba="0 1 0 0.8"></color>
+    </material>
+    <material name="blue">
+        <color rgba="0 0 1 0.8"></color>
+    </material>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.3 0.3 0.8"></box>
+            </geometry>
+            <material name="red"></material>
+            <origin xyz="0 0 0.4"></origin>
+        </visual>
+    </link>
+    <link name="link1">
+        <visual>
+            <geometry>
+                <box size="0.3 0.3 0.5"></box>
+            </geometry>
+            <material name="green"></material>
+            <origin xyz="0 0 0.25"></origin>
+        </visual>
+    </link>
+    <link name="link2">
+        <visual>
+            <geometry>
+                <box size="0.3 0.3 0.7"></box>
+            </geometry>
+            <material name="blue"></material>
+            <origin xyz="0 0 0.35"></origin>
+        </visual>
+    </link>
+
+    <!-- joint -->
+    <joint name="joint0" type="revolute">
+        <origin xyz="0 0 0.8"></origin>
+        <parent link="base_link"></parent>
+        <child link="link1"></child>
+
+        <axis xyz="1 0 0"></axis> <!-- if not axis,default is 1 0 0 ,it is a vector,rotate axis's vector.  --> <!-- try: 1 1 1 -->
+        <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57"></limit>
+    </joint>
+    <joint name="joint1" type="revolute">
+        <origin xyz="0 0 0.5"></origin>
+        <parent link="link1"></parent>
+        <child link="link2"></child>
+        <axis xyz="0 1 0"></axis>
+
+        <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57"></limit>
+    </joint>
+
+
+</robot>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="box" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- macro define
+
+     -->
+    <xacro:macro name="LINK_TMP">
+        <visual>
+            <geometry>
+                <box size="2 2 2"></box>
+            </geometry>
+        </visual>
+    </xacro:macro>
+
+    <link name="base_link">
+        <xacro:LINK_TMP />
+    </link>
+
+</robot>
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="origin">
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.2 0.3"></box>
+            </geometry>
+            <material name="green">
+                <color rgba="0 1 0 0.5"></color>
+            </material>
+            <origin xyz="0.1 0.2 0.3" rpy="0.785 0 0"></origin>
+        </visual>
+    </link>
+</robot>
