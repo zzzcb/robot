@@ -1,1 +1,1 @@
-# 2d cv :OpenCV 
+# 2d cv :OpenCV  http://robot.czxy.com/docs/opencv/

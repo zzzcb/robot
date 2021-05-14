@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<image_size>
+  640 480</image_size>
+<calibration_time>"Fri May 14 23:09:51 2021"</calibration_time>
+<camera_matrix type_id="opencv-matrix">
+  <rows>3</rows>
+  <cols>3</cols>
+  <dt>d</dt>
+  <data>
+    5.3251843740105608e+02 0. 3.4093674591947098e+02 0.
+    5.3266659252111913e+02 2.3441681045657532e+02 0. 0. 1.</data></camera_matrix>
+<dist_coeffs type_id="opencv-matrix">
+  <rows>1</rows>
+  <cols>5</cols>
+  <dt>d</dt>
+  <data>
+    -2.8371533865162551e-01 4.0690479732392197e-02
+    8.9083268209779539e-04 -2.8381751124964799e-04
+    1.4893443945491691e-01</data></dist_coeffs>
+<r_mse>2.0582500488971883e-01</r_mse>
+</opencv_storage>
