@@ -5,8 +5,7 @@
 /*
  *  对 单个照片进行 去畸变
  *  1. 读取相机内参 01calibration_chessboard.yml
- *  2. 初始化 两个map
- *  3. 执行去畸变
+ *  2. 执行去畸变
  */
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -19,17 +18,11 @@ int main(int argc, char **argv) {
     cv::FileStorage fs("/home/zcb/camera_calibration/01calibration/01calibration_chessboard.yml",
                        cv::FileStorage::READ);
 
-    cv::Size imgSize;
     cv::Mat cameraMatrix; // 相机内参  fx fy u0 v0
     cv::Mat distCoeffs; // k1 k2 p1 p2 k3
-    fs["image_size"] >> imgSize;
     fs["camera_matrix"] >> cameraMatrix;
     fs["dist_coeffs"] >> distCoeffs;
     fs.release();
-
-    cv::Mat map1, map2;
-    cv::initUndistortRectifyMap(cameraMatrix, distCoeffs, cv::Mat(), cameraMatrix, imgSize, CV_16SC2, map1, map2);
-
 
     cv::Mat src = cv::imread("/home/zcb/camera_calibration/01calibration/images/image_01.jpg");
 
