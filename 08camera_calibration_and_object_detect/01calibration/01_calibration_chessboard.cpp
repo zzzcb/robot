@@ -118,10 +118,15 @@ int main() {
     cout << distCoeffs << endl;
 
     //6 保存标定数据到 文件
-    saveToFile("/home/zcb/camera_calibration/01calibration/01calibration_chessboard.xml", cameraMatrix, distCoeffs,
-               r_mse,imgSize);
-    saveToFile("/home/zcb/camera_calibration/01calibration/01calibration_chessboard.yml", cameraMatrix, distCoeffs,
-               r_mse,imgSize);
+
+    if(cv::checkRange(cameraMatrix) && cv::checkRnage(distCoeffs)){
+        saveToFile("/home/zcb/camera_calibration/01calibration/01calibration_chessboard.xml", cameraMatrix, distCoeffs,
+                   r_mse,imgSize);
+        saveToFile("/home/zcb/camera_calibration/01calibration/01calibration_chessboard.yml", cameraMatrix, distCoeffs,
+                   r_mse,imgSize);
+    }else{
+        cout << "标定失败" <<endl;
+    }
 
 
     cv::waitKey(0);
