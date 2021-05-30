@@ -28,14 +28,23 @@ find_package(PCL)
 #add_executable(02cloud_viewer 02cloud_viewer.cpp)
 #target_link_libraries(02cloud_viewer ${PCL_LIBRARIES})
 
-add_executable(03pcl_visualizer 03pcl_visualizer.cpp)
-target_link_libraries(03pcl_visualizer ${PCL_LIBRARIES})
+#add_executable(03pcl_visualizer 03pcl_visualizer.cpp)
+#target_link_libraries(03pcl_visualizer ${PCL_LIBRARIES})
 
 
+#add_executable(04pcl_transform 04pcl_transform01手动填充参数.cpp)
+#target_link_libraries(04pcl_transform ${PCL_LIBRARIES})
 
+#add_executable(04pcl_transform2 04pcl_transform02使用仿射变换.cpp)
+#target_link_libraries(04pcl_transform2 ${PCL_LIBRARIES})
 
+#add_executable(05_pcl_deserialize 05_pcl_deserialize.cpp)
+#target_link_libraries(05_pcl_deserialize ${PCL_LIBRARIES})
 
+#add_executable(06_pcl_serialize 06_pcl_serialize.cpp)
+#target_link_libraries(06_pcl_serialize ${PCL_LIBRARIES})
 
+#add_executable(test generate_random_float_by_cpp.cpp)
 
-
-
+add_executable(07_kd_tree 07_kd_tree.cpp)
+target_link_libraries(07_kd_tree ${PCL_LIBRARIES})
