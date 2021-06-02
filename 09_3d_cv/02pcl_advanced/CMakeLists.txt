@@ -37,6 +37,9 @@ find_package(PCL)
 #add_executable(05radius_removal 05radius_removal.cpp)
 #target_link_libraries(05radius_removal ${PCL_LIBRARIES})
 
+#add_executable(06pointcloud2depth 06pointcloud2depth.cpp)
+#target_link_libraries(06pointcloud2depth ${PCL_LIBRARIES})
 
-
+#add_executable(07border_from_depth 07border_from_depth.cpp)
+#target_link_libraries(07border_from_depth ${PCL_LIBRARIES})
 
