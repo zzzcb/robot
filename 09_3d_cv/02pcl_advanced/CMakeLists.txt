@@ -43,3 +43,18 @@ find_package(PCL)
 #add_executable(07border_from_depth 07border_from_depth.cpp)
 #target_link_libraries(07border_from_depth ${PCL_LIBRARIES})
 
+#add_executable(08narf_keypoint_extraction 08narf_keypoint_extraction.cpp)
+#target_link_libraries(08narf_keypoint_extraction ${PCL_LIBRARIES})
+
+#add_executable(09ransac_RANdom_SAmple_Consensus 09ransac_RANdom_SAmple_Consensus.cpp)
+#target_link_libraries(09ransac_RANdom_SAmple_Consensus ${PCL_LIBRARIES})
+
+#add_executable(10_normal_estimation01 10_normal_estimation01.cpp)
+#target_link_libraries(10_normal_estimation01 ${PCL_LIBRARIES})
+
+#add_executable(10_normal_estimation02 10_normal_estimation02.cpp)
+#target_link_libraries(10_normal_estimation02 ${PCL_LIBRARIES})
+
+add_executable(10_normal_estimation03 10_normal_estimation03.cpp)
+target_link_libraries(10_normal_estimation03 ${PCL_LIBRARIES})
+
