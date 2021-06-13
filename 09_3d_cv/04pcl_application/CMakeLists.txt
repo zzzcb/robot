@@ -15,10 +15,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${OUTPUT_DIRECTORY_ROOT}/lib" CACHE PATH "Ar
 set(PCL_DIR ~/3rdparty/pcl-1.9.1/share/pcl-1.9)
 find_package(PCL)
 
-add_executable(01planar_segmentation pc_segmentation/01planar_segmentation.cpp)
-target_link_libraries(01planar_segmentation ${PCL_LIBRARIES})
+#add_executable(01planar_segmentation pc_segmentation/01planar_segmentation.cpp)
+#target_link_libraries(01planar_segmentation ${PCL_LIBRARIES})
 
+#add_executable(02_cylinder_segementation pc_segmentation/02_cylinder_segementation.cpp)
+#target_link_libraries(02_cylinder_segementation ${PCL_LIBRARIES})
 
+add_executable(03_cluster_extraction pc_segmentation/03_cluster_extraction.cpp)
+target_link_libraries(03_cluster_extraction ${PCL_LIBRARIES})
 
 
 
