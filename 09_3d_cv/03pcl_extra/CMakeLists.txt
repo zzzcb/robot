@@ -21,5 +21,8 @@ find_package(PCL)
 #add_executable(02_normal_distributions_transform_ndt 02_normal_distributions_transform_ndt.cpp)
 #target_link_libraries(02_normal_distributions_transform_ndt ${PCL_LIBRARIES})
 
-add_executable(03_interactive_icp 03_interactive_icp.cpp)
-target_link_libraries(03_interactive_icp ${PCL_LIBRARIES})
+#add_executable(03_interactive_icp 03_interactive_icp.cpp)
+#target_link_libraries(03_interactive_icp ${PCL_LIBRARIES})
+
+add_executable(04_point_feature_hist_pfh 04_point_feature_hist_pfh.cpp)
+target_link_libraries(04_point_feature_hist_pfh ${PCL_LIBRARIES})
