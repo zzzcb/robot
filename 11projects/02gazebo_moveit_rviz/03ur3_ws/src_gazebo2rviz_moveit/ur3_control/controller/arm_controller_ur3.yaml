@@ -1,0 +1,16 @@
+# 控制一个关节
+shoulder_pan_joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: shoulder_pan_joint 
+
+# 控制一组关节
+arm_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints:
+        - shoulder_pan_joint
+        - shoulder_lift_joint
+        - elbow_joint
+        - wrist_1_joint
+        - wrist_2_joint
+        - wrist_3_joint
+

@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="my_rviz" pkg="rviz" type="rviz" respawn="false"
+        args="-d $(find ur3_moveit_config)/launch/moveit.rviz" output="screen">
+  </node>
+
+</launch>
