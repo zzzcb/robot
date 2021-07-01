@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:include filename="/home/zcb/01intelligent_storage/arm/arm.gazebo.xacro"/>
+	<material name="White"> 
+		<color rgba="1 1 1 1"/> 
+	</material>  
+	<material name="Blue"> 
+		<color rgba="0 0 1 1"/> 
+	</material>  
+	<material name="Black">
+		<color rgba="0 0 0 1"/>
+	</material>
+	<material name="Red">
+		<color rgba="1 0 0 1"/>
+	</material>
+
+
+	<xacro:property name="base_link_height" value="0.04"/>
+	<xacro:property name="base_link_length" value="0.3"/>
+	<xacro:property name="base_link_width" value="0.3"/>
+	
+	<!-- link1-->
+	<xacro:property name="link1_length" value="0.264"/>
+	<xacro:property name="link1_radius" value="0.08"/>
+	
+	<!-- link2-->
+	<xacro:property name="link2_length" value="0.225"/>
+	<xacro:property name="link2_radius" value="0.06"/>
+	
+	<!-- link3 properties -->  
+	<xacro:property name="link3_radius" value="0.04"/>  
+	<xacro:property name="link3_length" value="0.08"/>
+	<xacro:property name="link3_mass" value="2"/>    
+	
+	<!-- link4 properties -->  
+	<xacro:property name="link4_radius" value="0.04"/>  
+	<xacro:property name="link4_length" value="0.137"/> 
+	<xacro:property name="link4_mass" value="2"/> 	
+	
+	<!-- link5 properties -->  
+	<xacro:property name="link5_radius" value="0.04"/>  
+	<xacro:property name="link5_length" value="0.04"/>  
+	<xacro:property name="link5_mass" value="1"/> 		
+	
+	<!-- palm properties -->  
+	<xacro:property name="palm_radius" value="0.04"/>  
+	<xacro:property name="palm_length" value="0.02"/>  
+	<xacro:property name="palm_mass" value="1"/>
+	
+	<!-- finger -->
+	<xacro:property name="finger_length" value="0.01" />
+	<xacro:property name="finger_width" value="0.01" />
+	<xacro:property name="finger_height" value="0.08" />
+	<xacro:property name="finger_mass" value="0.1"/>
+	
+	<!-- cylinder_inertia -->
+	<xacro:macro name="cylinder1_inertia" params="mass radius length">
+		<inertial> 
+		    <mass value="${mass}"/>  
+		    <inertia ixx="${mass*(3*radius*radius+length*length)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(3*radius*radius+length*length)/12}" iyz="0.0" izz="${mass*radius*radius/2}"/> 
+		</inertial> 
+	</xacro:macro>
+	<xacro:macro name="cylinder2_inertia" params="mass length">
+		<inertial> 
+		    <mass value="${mass}"/>  
+		    <inertia ixx="${mass*length*length/3}" ixy="0.0" ixz="0.0" iyy="${mass*length*length/3}" iyz="0.0" izz="${mass*length*length/3}"/> 
+		</inertial> 
+	</xacro:macro>
+	
+	<!-- box_inertia-->
+	<xacro:macro name="box_inertia" params="mass width height length">
+		<inertial> 
+			<mass value="${mass}"/>  
+			<inertia ixx="${mass*(width*width+height*height)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(height*height+length*length)/12}" iyz="0.0" izz="${mass*(width*width+length*length)/12}"/> 
+		</inertial> 
+	</xacro:macro>
+	
+	
+	
+	
+	<!-- common link-->
+	<xacro:macro name="common_link" params="name length radius material type mass">
+		<link name="${name}">
+			<visual>
+				<geometry>
+					<cylinder length="${length}" radius="${radius}"/>
+				</geometry>
+				<origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+				<material name="${material}"/>
+			</visual>
+			
+			<collision>
+				<geometry>
+					<cylinder length="${length}" radius="${radius}"/>
+				</geometry>
+				<origin xyz="0 0 ${length/2}" rpy="0 0 0"/>
+			</collision>
+			<xacro:if value="${type=='1'}">
+				<cylinder1_inertia mass="${mass}" radius="${radius}" length="${length}"/>
+			</xacro:if>
+			<xacro:unless value="${type=='1'}">
+				<cylinder2_inertia mass="${mass}" length="${length}"/>
+			</xacro:unless>
+		</link>
+	</xacro:macro>
+	
+	<!-- common joint-->
+	<xacro:macro name="common_joint" params="name parent child z axis lower upper">
+		<joint name="${name}" type="revolute">
+			<parent link="${parent}"/> 
+			<child link="${child}"/>
+			<origin xyz ="0 0 ${z}" rpy ="0 0 0"/>
+			<axis xyz="${axis}"/>
+			<limit lower="${lower}" upper="${upper}" effort ="30" velocity ="3.49" />
+			<dynamics damping="50" friction="1"/> 
+		</joint>
+	</xacro:macro>
+
+<!--/////////////////gazebo world ///////////////////-->
+<link name="world"/>
+
+<joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+</joint>
+
+<!--/////////////////////////////////////////////////-->
+
+	<link name="base_link">
+		<visual>
+			<geometry>
+				<box size="${base_link_length} ${base_link_width} ${base_link_height}"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<material name="White"/> 
+		</visual>
+		
+		<collision>
+			<geometry>
+				<box size="0.3 0.3 ${base_link_height}"/>
+			</geometry>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+		</collision>
+		<xacro:box_inertia mass="1" width="${base_link_width}" height="${base_link_height}" length="${base_link_length}"/> 
+	</link>
+	
+	<common_link name="link1" length="${link1_length}" radius="${link1_radius}" material="Blue" type="1" mass="1"/>
+	<common_joint name="joint1" parent="base_link" child="link1" z="${base_link_height/2}" axis="0 0 1" lower="${-pi}" upper="${pi}"/>
+	
+	<common_link name="link2" length="${link2_length}" radius="${link2_radius}" material="White" type="0" mass="3"/>
+	<common_joint name="joint2" parent="link1" child="link2" z="${link1_length}" axis="0 1 0" lower="${-2.00}" upper="${2.00}"/>
+
+	<common_link name="link3" length="${link3_length}" radius="${link3_radius}" material="Blue" type="0" mass="${link3_mass}"/>
+	<common_joint name="joint3" parent="link2" child="link3" z="${link2_length}" axis="0 1 0" lower="${-2.27}" upper="${2.27}"/>
+	
+	<common_link name="link4" length="${link4_length}" radius="${link4_radius}" material="Black" type="1" mass="${link4_mass}"/>
+	<common_joint name="joint4" parent="link3" child="link4" z="${link3_length}" axis="0 0 1" lower="${-pi}" upper="${pi}"/>
+	
+	<common_link name="link5" length="${link5_length}" radius="${link5_radius}" material="Blue" type="0" mass="${link5_mass}"/>
+	<common_joint name="joint5" parent="link4" child="link5" z="${link4_length}" axis="0 1 0" lower="${-2.87}" upper="${2.87}"/>
+
+	<common_link name="palm" length="${palm_length}" radius="${palm_radius}" material="White" type="1" mass="${palm_mass}"/>
+	<common_joint name="palm_joint" parent="link5" child="palm" z="${link5_length}" axis="0 0 1" lower="${-pi}" upper="${pi}"/>
+	
+	<link name="left_finger_link">
+		<visual>
+			<geometry>
+				<box size="${finger_length} ${finger_width} ${finger_height}"/>
+			</geometry>
+			<origin xyz="0 0 ${finger_height/2}" rpy="0 0 0"/>
+			<material name="Red"/> 
+		</visual>
+		
+		<collision>
+			<geometry>
+				<box size="${finger_length} ${finger_width} ${finger_height}"/>
+			</geometry>
+			<origin xyz="0 0 ${finger_height/2}" rpy="0 0 0"/>
+		</collision>
+		<xacro:box_inertia mass="${finger_mass}" width="${finger_width}" height="${finger_height}" length="${finger_length}"/> 
+
+	</link>
+	
+	<joint name="finger_joint1" type="prismatic"> 
+		<parent link="palm"/>  
+		<child link="left_finger_link"/>  
+		<origin xyz="0 -${palm_radius-finger_width/2} ${palm_length}" rpy="0 0 0"/>  
+		<axis xyz="0 1 0"/>  
+		<limit effort="30" lower="0" upper="${2*(palm_radius-finger_width)}"  velocity="1.0"/>  
+		<dynamics damping="50" friction="1"/> 
+	</joint> 
+	
+	<link name="right_finger_link">
+		<visual>
+			<geometry>
+				<box size="${finger_length} ${finger_width} ${finger_height}"/>
+			</geometry>
+			<origin xyz="0 0 ${finger_height/2}" rpy="0 0 0"/>
+			<material name="Red"/> 
+		</visual>
+		
+		<collision>
+			<geometry>
+				<box size="${finger_length} ${finger_width} ${finger_height}"/>
+			</geometry>
+			<origin xyz="0 0 ${finger_height/2}" rpy="0 0 0"/>
+		</collision>
+		<xacro:box_inertia mass="${finger_mass}" width="${finger_width}" height="${finger_height}" length="${finger_length}"/> 
+
+	</link>
+	
+	<joint name="finger_joint2" type="fixed"> 
+		<parent link="palm"/>  
+		<child link="right_finger_link"/>  
+		<origin xyz="0 ${palm_radius-finger_width/2} ${palm_length}" rpy="0 0 0"/>  
+	</joint> 
+</robot>

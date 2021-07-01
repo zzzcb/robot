@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+  </include>
+
+  <!-- send robot urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro /home/zcb/01intelligent_storage/arm/arm.urdf.xacro" />
+
+   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model robot1 -param robot_description -z 0.05"/> 
+</launch>
