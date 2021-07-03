@@ -7,5 +7,5 @@ moveit_setup_assistant_config:
     relative_path: config/robot.srdf
   CONFIG:
     author_name: zcb
-    author_email: zcb@qq.com
-    generated_timestamp: 1625203522
+    author_email: zcb@stu.nchu.edu.cn
+    generated_timestamp: 1625300198

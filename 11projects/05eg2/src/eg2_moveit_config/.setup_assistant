@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: eg2_description
+    relative_path: urdf/eg2.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/eg2_gripper.srdf
+  CONFIG:
+    author_name: zcb
+    author_email: zcb@stu.nchu.edu.cn
+    generated_timestamp: 1625299091

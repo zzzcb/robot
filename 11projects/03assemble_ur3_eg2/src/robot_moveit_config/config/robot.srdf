@@ -29,8 +29,6 @@
         <joint name="Link2" value="-0.86" />
         <joint name="Link22" value="0.86" />
     </group_state>
-    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="gripper" parent_link="ee_link" group="gripper_group" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="Link1" link2="Link11" reason="Adjacent" />
     <disable_collisions link1="Link1" link2="Link2" reason="Never" />

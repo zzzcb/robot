@@ -1,6 +1,6 @@
 <launch>
 
-  <node name="moveit_rviz" pkg="rviz" type="rviz" respawn="false"
+  <node name="zcb_rviz" pkg="rviz" type="rviz" respawn="false"
         args="-d $(find robot_moveit_config)/launch/moveit.rviz" output="screen">
   </node>
 
