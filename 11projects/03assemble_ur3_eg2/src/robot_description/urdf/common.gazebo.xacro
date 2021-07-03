@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+     <!-- Gazebo Plugin: gazebo_ros_control -->
+     <!-- gazebo_ros_control's zuoyong is to parse transmission tag, hhhhhh,by zcb -->
+     <gazebo>
+         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+             <robotNamespace>/</robotNamespace>
+         </plugin>
+     </gazebo>
+</robot>

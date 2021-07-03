@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="robot" >
+    <!-- common gazebo -->
+    <xacro:include filename="$(find robot_description)/urdf/common.gazebo.xacro" />
+
+    <!-- fixed ur arm in gazebo -->
+    <link name="world" />
+    <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link" />
+    </joint>
+    <!-- load arm -->
+    <xacro:include filename="$(find ur3_description)/urdf/ur3.urdf.xacro" />
+    <xacro:ur3_robot prefix="" joint_limited="true"/>
+
+    <!-- load gripper -->
+    <xacro:include filename="$(find panda_gripper_description)/urdf/gripper.urdf.xacro" />
+    <xacro:gripper connected_to="ee_link" rpy="0 1.5707 0"/>
+
+</robot>

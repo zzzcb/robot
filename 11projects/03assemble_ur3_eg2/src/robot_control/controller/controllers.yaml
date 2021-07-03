@@ -1,0 +1,24 @@
+arm_group_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+        - shoulder_pan_joint
+        - shoulder_lift_joint
+        - elbow_joint
+        - wrist_1_joint
+        - wrist_2_joint
+        - wrist_3_joint
+
+gripper_group_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+        - Link1
+        - Link11
+        - Link2
+        - Link22
+    constraints:
+        goal_time: 1
+        Link1: {trajectory: 1.7, goal: 1.9}
+        Link11: {trajectory: 1.7, goal: 1.9}
+        Link2: {trajectory: 1.7, goal: 1.9}
+        Link22: {trajectory: 1.7, goal: 1.9}
+

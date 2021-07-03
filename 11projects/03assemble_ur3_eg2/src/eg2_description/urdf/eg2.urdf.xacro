@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="eg2_gripper">
+
+    <xacro:include filename="$(find eg2_description)/urdf/eg2.transmission.xacro" />
+    <xacro:include filename="$(find eg2_description)/urdf/eg2.gazebo.xacro" />
+
+    <xacro:macro name="eg2_gripper"
+                 params="connected_to:='' rpy:='0 0 0' xyz:='0 0 0'">
+        <xacro:unless value="${connected_to == ''}">
+            <joint name="gripper_joint" type="fixed">
+                <parent link="${connected_to}"/>
+                <child link="palm_link"/>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+            </joint> </xacro:unless>
+
+        <link name="palm_link">
+            <inertial>
+                <!-- connect to ur arm -->
+                <!-- 0.042 0.0 0.007 -->
+                <!-- <origin xyz="0.00339303654278191 -2.1205433560656E-05 -0.0099185365078758" rpy="0 0 0"/> -->
+                <origin xyz="0.04539303654278191 -2.1205433560656E-05 -0.0029185365078758" rpy="0 0 0"/>
+                <mass value="0.105853592307918"/>
+                <inertia
+                        ixx="3.93795927851199E-05"
+                        ixy="-8.7395226509728E-08"
+                        ixz="5.91928672040786E-07"
+                        iyy="0.000106376720416166"
+                        iyz="-1.82858764303774E-10"
+                        izz="0.000125852616063213"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/palm_link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.894117647058823 0.913725490196078 0.929411764705882 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/palm_link.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+
+        <link name="Link1">
+            <inertial>
+                <origin xyz="0.0164149658242926 9.75754915755189E-09 0.00898193900447147" rpy="0 0 0"/>
+                <mass value="0.00647716099397792"/>
+                <inertia
+                        ixx="2.95068972140683E-07"
+                        ixy="8.63208170411155E-13"
+                        ixz="-1.92008628754607E-09"
+                        iyy="1.69979619476872E-06"
+                        iyz="-1.99232397395103E-13"
+                        izz="1.45016449434989E-06"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link1.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.894117647058823 0.913725490196078 0.929411764705882 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link1.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+
+        <joint name="Link1" type="revolute">
+            <origin xyz="0.036 -0.04 -0.019" rpy="-3.0158E-16 -7.1586E-16 -0.30719"/>
+            <parent link="palm_link"/>
+            <child link="Link1"/>
+            <axis xyz="0 0 1"/>
+            <!--<limit lower="0" upper="1" effort="30" velocity="1"/>-->
+            <limit lower="0" upper="1" effort="1" velocity="1"/>
+        </joint>
+
+
+        <link name="Link11">
+            <inertial>
+                <origin xyz="0.011366555972498 0.0118642725662323 0.0060000073930068" rpy="0 0 0"/>
+                <mass value="0.0127543420299361"/>
+                <inertia
+                        ixx="5.68538478020233E-07"
+                        ixy="-2.68012262729007E-07"
+                        ixz="9.34125984931838E-13"
+                        iyy="1.45145776457487E-06"
+                        iyz="9.34355360561326E-13"
+                        izz="1.50564598220449E-06"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link11.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.894117647058823 0.913725490196078 0.929411764705882 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link11.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+
+        <joint name="Link11" type="revolute">
+            <origin xyz="0.042 0 0.003" rpy="5.0393E-16 5.6225E-16 0.30719"/>
+            <parent link="Link1"/>
+            <child link="Link11"/>
+            <axis xyz="0 0 1"/>
+            <!--<limit lower="-1" upper="0" effort="30" velocity="1"/>-->
+            <limit lower="-1" upper="0" effort="1" velocity="1"/>
+        </joint>
+
+
+
+        <link name="Link2">
+            <inertial>
+                <origin xyz="0.0164149658242926 9.75754915755189E-09 0.00898193900447147" rpy="0 0 0"/>
+                <mass value="0.00647716099397793"/>
+                <inertia
+                        ixx="2.95068972140683E-07"
+                        ixy="8.63208169650113E-13"
+                        ixz="-1.92008628755341E-09"
+                        iyy="1.69979619476872E-06"
+                        iyz="-1.99232397320157E-13"
+                        izz="1.45016449434989E-06"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link2.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.894117647058823 0.913725490196078 0.929411764705882 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link2.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="Link2" type="revolute">
+            <origin xyz="0.036 0.04 -0.019" rpy="-2.6397E-16 3.7199E-16 0.30719"/>
+            <parent link="palm_link"/>
+            <child link="Link2"/>
+            <axis xyz="0 0 1"/>
+            <!--<limit lower="-1" upper="0" effort="30" velocity="1"/>-->
+            <limit lower="-1" upper="0" effort="1" velocity="1"/>
+        </joint>
+
+
+        <link name="Link22">
+            <inertial>
+                <origin xyz="-0.011366555972498 0.0118642725662323 -0.0060000073930068" rpy="0 0 0"/>
+                <mass value="0.0127543420299362"/>
+                <inertia
+                        ixx="5.68538478020238E-07"
+                        ixy="2.6801226272901E-07"
+                        ixz="9.34125986250171E-13"
+                        iyy="1.45145776457489E-06"
+                        iyz="-9.34355361631596E-13"
+                        izz="1.5056459822045E-06"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link22.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.894117647058823 0.913725490196078 0.929411764705882 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://eg2_description/meshes/Link22.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+
+        <joint name="Link22" type="revolute">
+            <origin xyz="0.042 0 0.015" rpy="-3.641E-16 2.4584E-16 2.8344"/>
+            <parent link="Link2"/>
+            <child link="Link22"/>
+            <axis xyz="0 0 1"/>
+            <!--<limit lower="0" upper="1" effort="30" velocity="1"/>-->
+            <limit lower="0" upper="1" effort="1" velocity="1"/>
+        </joint>
+
+        <!-- Transmission -->
+        <xacro:gripper_transmission joint="Link1"/>
+        <xacro:gripper_transmission joint="Link11"/>
+        <xacro:gripper_transmission joint="Link2"/>
+        <xacro:gripper_transmission joint="Link22"/>
+
+        <!-- Gazebo-->
+        <xacro:gripper_gazebo_palm   refer="palm_link"/>
+        <xacro:gripper_gazebo_finger refer="Link1"/>
+        <xacro:gripper_gazebo_finger refer="Link11"/>
+        <xacro:gripper_gazebo_finger refer="Link2"/>
+        <xacro:gripper_gazebo_finger refer="Link22"/>
+
+    </xacro:macro>
+
+    <!-- <xacro:eg2_gripper/> -->
+
+</robot>
