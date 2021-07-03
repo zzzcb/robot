@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot name="myrobot">
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.3"/>
+      <geometry>
+        <cylinder length="0.6" radius="0.2"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="right_leg">
+    <visual>
+      <origin rpy="0 1.57 1.57"/>
+      <geometry>
+        <box size="0.5 0.1 0.2"></box>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="left_leg">
+    <visual>
+      <origin rpy="1.57 1.57 0"/>
+      <geometry>
+        <box size="0.5 0.1 0.2"></box>
+      </geometry>
+    </visual>
+  </link>
+ 
+  <link name="right_finger">
+    <visual>
+      <origin xyz="0 0.1 0.15" rpy="0 -1.57 0"/> <!--  step02-->
+      <geometry>
+        <box size="0.3 0.2 0.1"></box>
+      </geometry>
+    </visual>
+  </link>
+ 
+  <joint name="base2right_leg" type="revolute">
+    <parent link="base_link" />
+    <child link="right_leg" />
+    <origin xyz="0.25 0 0.25"/>
+    <limit lower="0" upper="1.57" effort="1" velocity="1" />
+  </joint>
+
+  <joint name="base2left_leg" type="revolute">
+    <parent link="base_link" />
+    <child link="left_leg" />
+    <origin xyz="-0.25 0 0.25"/>
+    <limit lower="0" upper="1.57" effort="1" velocity="1" />
+  </joint>
+
+  <joint name="right_leg2right_finger" type="revolute">
+    <parent link="right_leg" />
+    <child link="right_finger" />
+    <limit lower="-1.57" upper="0" effort="1" velocity="1" />
+    <origin xyz="0 0.1 0.25"/> <!--  step01-->
+  </joint>
+
+
+</robot>

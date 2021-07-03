@@ -1,0 +1,122 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /RobotModel1
+        - /RobotModel1/Links1
+        - /RobotModel1/Links1/base_link1
+      Splitter Ratio: 0.5
+    Tree Height: 728
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 0.30000001192092896
+          Show Axes: true
+          Show Trail: false
+          Value: true
+        left_finger:
+          Alpha: 0.5
+          Show Axes: true
+          Show Trail: false
+          Value: true
+        left_leg:
+          Alpha: 0.30000001192092896
+          Show Axes: true
+          Show Trail: false
+          Value: true
+        right_finger:
+          Alpha: 0.4000000059604645
+          Show Axes: true
+          Show Trail: false
+          Value: true
+        right_leg:
+          Alpha: 0.20000000298023224
+          Show Axes: true
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 2.666421413421631
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: -0.3165203332901001
+        Y: 0.17152082920074463
+        Z: 0.11381034553050995
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.8197952508926392
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 1.8285765647888184
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 949
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000100000000000001560000035bfc0200000001fb000000100044006900730070006c006100790073010000003d0000035b000000c900ffffff000004af0000035b00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Width: 1547
+  X: 200
+  Y: 33
