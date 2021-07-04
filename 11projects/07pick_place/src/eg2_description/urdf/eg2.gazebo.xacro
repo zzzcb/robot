@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="gripper_gazebo_palm" params="refer">
+        <gazebo reference="${refer}">
+            <selfCollide>true</selfCollide>
+            <material>Gazebo/Black</material>
+            <mu1>0.2</mu1>
+            <mu2>0.2</mu2>
+            <kp>1000000.0</kp>
+            <kd>1.0</kd>
+        </gazebo>
+    </xacro:macro>
+    <xacro:macro name="gripper_gazebo_finger" params="refer">
+        <gazebo reference="${refer}">
+            <material>Gazebo/Grey</material>
+            <mu1>0.2</mu1>
+            <mu2>0.2</mu2>
+            <kp>1000000.0</kp>
+            <kd>1.0</kd>
+        </gazebo>
+    </xacro:macro>
+</robot>
+

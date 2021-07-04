@@ -1,0 +1,25 @@
+controller_list:
+  - name: fake_stage_group_controller
+    joints:
+      - stage_slide_joint
+  - name: fake_arm_group_controller
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+  - name: fake_gripper_group_controller
+    joints:
+      - Link1
+      - Link11
+      - Link2
+      - Link22
+initial:  # Define initial robot poses.
+  - group: stage_group
+    pose: stage_home
+  - group: arm_group
+    pose: arm_home
+  - group: gripper_group
+    pose: gripper_open

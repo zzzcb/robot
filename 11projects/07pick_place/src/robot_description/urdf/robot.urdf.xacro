@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="robot" >
+    <!-- common gazebo -->
+    <xacro:include filename="$(find robot_description)/urdf/common.gazebo.xacro" />
+
+    <link name="world" />
+    <joint name="fix_stage_joint" type="fixed"> 
+        <parent link="world"/>
+        <child link="stage_base_link" />
+    </joint>
+
+    <!-- load stage -->
+    <xacro:include filename="$(find stage_description)/urdf/stage.urdf.xacro" />
+    <xacro:stage/>
+
+    <joint name="fix_arm_joint" type="fixed">
+        <parent link="stage_slide_link" />
+        <child link="base_link"/>
+        <origin rpy="-${pi/2} 0 0" />
+    </joint>
+
+    <!-- load arm  -->
+    <xacro:include filename="$(find ur3_description)/urdf/ur3.urdf.xacro" />
+    <xacro:ur3_robot prefix="" joint_limited="true"/>
+
+
+    <!-- load gripper-->
+    <xacro:include filename="$(find eg2_description)/urdf/eg2.urdf.xacro" />
+    <xacro:eg2_gripper connected_to="ee_link" xyz="0.042 0.0 0.007"/>
+ 
+
+</robot>

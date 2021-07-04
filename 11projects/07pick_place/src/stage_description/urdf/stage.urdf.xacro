@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="my_robot">
+
+  <xacro:include filename="$(find stage_description)/urdf/stage.transmission.xacro" />
+  <xacro:include filename="$(find stage_description)/urdf/stage.gazebo.xacro" />
+
+  <xacro:macro name="box_inertial" params="x y z mass *origin">
+      <inertial>
+          <mass value="${mass}"/>
+          <xacro:insert_block name="origin"/>
+          <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+                   iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+                   izz="${0.0833333 * mass * (x*x + y*y)}"/>
+      </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="stage">
+
+    <xacro:property name="stage_x" value="0.2" />  
+    <xacro:property name="stage_y" value="1" />
+    <xacro:property name="stage_z" value="0.2" />
+    <xacro:property name="stage_mass" value="20" />
+
+    <xacro:property name="slide_x" value="0.15" />
+    <xacro:property name="slide_y" value="0.01" />
+    <xacro:property name="slide_z" value="0.15" />
+    <xacro:property name="slide_mass" value="4" />
+
+    <link name="stage_base_link"> 
+      <visual>
+          <origin xyz="0 0 ${stage_z/2}"/>
+          <geometry>
+              <box size="${stage_x} ${stage_y} ${stage_z}"/>
+          </geometry>
+          <material name="white">
+              <color rgba="1 1 1 1"/>
+          </material>
+      </visual>
+      <collision>
+          <origin xyz="0 0 ${stage_z/2}"/>
+          <geometry>
+              <box size="${stage_x} ${stage_y} ${stage_z}"/>
+          </geometry>
+          <material name="white">
+              <color rgba="1 1 1 1"/>
+          </material>
+      </collision>
+
+      <xacro:box_inertial x="${stage_x}" y="${stage_y}" z="${stage_z}" mass="${stage_mass}">
+         <origin xyz="0 0 ${stage_z/2}" rpy="0 0 0" />
+      </xacro:box_inertial>
+
+    </link>
+
+    <link name="stage_slide_link" >
+      <visual>
+         <origin xyz="0 ${slide_y/2} 0" />
+          <geometry>
+              <box size="${slide_x} ${slide_y} ${slide_z}"/>
+          </geometry>
+          <material name="white">
+              <color rgba="1 1 1 1"/>
+          </material>
+      </visual>
+      <collision>
+         <origin xyz="0 ${slide_y/2} 0" />
+          <geometry>
+              <box size="${slide_x} ${slide_y} ${slide_z}"/>
+          </geometry>
+          <material name="white">
+              <color rgba="1 1 1 1"/>
+          </material>
+      </collision>
+      <xacro:box_inertial x="${slide_x}" y="${slide_y}" z="${slide_z}" mass="${slide_mass}">
+         <origin xyz="0 ${slide_y/2} 0" />
+      </xacro:box_inertial>
+    </link>
+
+    <joint name="stage_slide_joint" type="prismatic">
+      <parent link="stage_base_link" />
+      <child link = "stage_slide_link" />
+      <origin xyz="0 0 ${stage_z}" rpy="${pi/2} 0 0" />
+      <axis xyz="0 0 1" />
+      <limit lower="-${(stage_y - slide_z)/2}" upper="${(stage_y - slide_z)/2}" effort="400" velocity="1"/>
+      <dynamics damping="0.0" friction="20"/>
+    </joint>
+ 
+  </xacro:macro>
+
+  <!-- <xacro:stage />  -->
+
+</robot>
+
+

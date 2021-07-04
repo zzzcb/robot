@@ -1,0 +1,6 @@
+<launch>
+
+    <!-- spawn model in gazebo-->
+    <node name="spawn_material" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" launch-prefix="/bin/bash -c '$* `rosparam get /gazebo_ros_spawn_model_arg`' --"/>
+
+</launch>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="material">
+
+    <xacro:property name="box_x" value="0.06" />
+    <xacro:property name="box_y" value="0.06" />
+    <xacro:property name="box_z" value="0.16" />
+    <xacro:property name="box_mass" value="0.05" />
+
+    <link name="material_link">
+
+        <inertial>
+            <origin xyz="0 0 ${box_z/2}" />
+            <mass value="${box_mass}" />
+            <inertia 
+                ixx="${1/12*box_mass*(box_y*box_y+box_z*box_z)}" 
+                iyy="${1/12*box_mass*(box_x*box_x+box_z*box_z)}" 
+                izz="${1/12*box_mass*(box_x*box_x+box_y*box_y)}" 
+                ixy="0" ixz="0" iyz="0"/>
+
+        </inertial>
+
+        <visual>
+            <origin xyz="0 0 ${box_z/2}" />
+            <geometry>
+                <box size="0.06 0.06 0.16" />
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${box_z/2}" />
+            <geometry>
+                <box size="${box_x} ${box_y} ${box_z}" />
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="material_link">
+        <material>Gazebo/Blue</material>
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+    </gazebo>
+
+</robot>

@@ -1,0 +1,12 @@
+<launch>
+    <arg name="target_material_idx" default="3"/> <!-- can change by := -->
+    <param name="target_material_idx" value="$(arg target_material_idx)" type="int"/>
+        <!-- py script will get it from param server -->
+
+    <!-- load material -->
+    <param name="material_description" command="$(find xacro)/xacro --inorder $(find common_pkg)/urdf/material.urdf.xacro"/>
+
+    <!-- execute py script -->
+    <node name="common_node" pkg="common_pkg" type="load_material.py" output="screen" />
+
+</launch>
