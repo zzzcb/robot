@@ -4,7 +4,7 @@
     <xacro:property name="box_x" value="0.06" />
     <xacro:property name="box_y" value="0.06" />
     <xacro:property name="box_z" value="0.16" />
-    <xacro:property name="box_mass" value="0.05" />
+    <xacro:property name="box_mass" value="0.5" />
 
     <link name="material_link">
 
@@ -22,7 +22,7 @@
         <visual>
             <origin xyz="0 0 ${box_z/2}" />
             <geometry>
-                <box size="0.06 0.06 0.16" />
+                <box size="${box_x} ${box_y} ${box_z}" />
             </geometry>
         </visual>
 
@@ -38,6 +38,8 @@
         <material>Gazebo/Blue</material>
         <mu1>1.0</mu1>
         <mu2>1.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>1.0</kd>
     </gazebo>
 
 </robot>

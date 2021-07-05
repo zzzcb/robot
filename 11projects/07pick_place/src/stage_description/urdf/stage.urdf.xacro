@@ -54,7 +54,7 @@
 
     <link name="stage_slide_link" >
       <visual>
-         <origin xyz="0 ${slide_y/2} 0" />
+         <origin xyz="0 -${slide_y/2} 0" />
           <geometry>
               <box size="${slide_x} ${slide_y} ${slide_z}"/>
           </geometry>
@@ -63,7 +63,7 @@
           </material>
       </visual>
       <collision>
-         <origin xyz="0 ${slide_y/2} 0" />
+         <origin xyz="0 -${slide_y/2} 0" />
           <geometry>
               <box size="${slide_x} ${slide_y} ${slide_z}"/>
           </geometry>
@@ -72,14 +72,14 @@
           </material>
       </collision>
       <xacro:box_inertial x="${slide_x}" y="${slide_y}" z="${slide_z}" mass="${slide_mass}">
-         <origin xyz="0 ${slide_y/2} 0" />
+         <origin xyz="0 -${slide_y/2} 0" />
       </xacro:box_inertial>
     </link>
 
     <joint name="stage_slide_joint" type="prismatic">
       <parent link="stage_base_link" />
       <child link = "stage_slide_link" />
-      <origin xyz="0 0 ${stage_z}" rpy="${pi/2} 0 0" />
+      <origin xyz="0 0 ${stage_z}" rpy="-${pi/2} 0 0" />
       <axis xyz="0 0 1" />
       <limit lower="-${(stage_y - slide_z)/2}" upper="${(stage_y - slide_z)/2}" effort="400" velocity="1"/>
       <dynamics damping="0.0" friction="20"/>

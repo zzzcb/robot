@@ -52,7 +52,18 @@
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>rospy</exec_depend>
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
 
+  <build_depend>moveit_ros_move_group</build_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+
+  <build_depend>moveit_ros_planning_interface</build_depend>
+  <exec_depend>moveit_ros_planning_interface</exec_depend>
+
+  <build_depend>moveit_visual_tools</build_depend>
+  <exec_depend>moveit_visual_tools</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -8,9 +8,10 @@ import sys
 import random
 
 """
-分为两步:
+分为三步:
     1 从param server 中读取到 target material 的索引
     2 读取配置文件,并根据索引获得物料出现的位置
+    3 上传信息到 param server 
 """
 
 
@@ -33,7 +34,10 @@ def load():
     target_pos = yaml_obj["locations"][target_idx]
     x, y, z = target_pos
 
-    # 4 拼造出gazebo spawn model 的参数信息,并上传到 param server
+    # 4 上传x y z
+    rospy.set_param("/target_pos", {"x": x, "y": y, "z": z})
+
+    # 5 拼造出gazebo spawn model 的参数信息,并上传到 param server
     arg = "-urdf -param material_description -model material -x %f -y %f -z %f" % (x, y, z)
     rospy.set_param("gazebo_ros_spawn_model_arg", arg)
 
