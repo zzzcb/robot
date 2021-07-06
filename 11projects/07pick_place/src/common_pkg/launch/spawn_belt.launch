@@ -1,0 +1,8 @@
+<launch>
+
+    <!-- load belt -->
+    <param name="belt_description" command="$(find xacro)/xacro --inorder $(find common_pkg)/urdf/belt.urdf.xacro"/>
+    <node name="spawn_belt" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param belt_description -model belt -x 0.65 -y -0.5 -z 0"/>
+
+</launch>
+

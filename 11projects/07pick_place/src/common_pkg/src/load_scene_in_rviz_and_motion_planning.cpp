@@ -23,6 +23,7 @@ const std::string ARM_GROUP = "arm_group";
 const std::string GRIPPER_GROUP = "gripper_group";
 
 const std::string SHELF_MESH_PATH = "package://common_pkg/meshes/shelf.dae";
+const std::string BELT_MESH_PATH = "package://common_pkg/meshes/belt.dae";
 
 // rviz中 场景构造:添加物料架
 void addShelf(moveit::planning_interface::MoveGroupInterface &group,
@@ -118,6 +119,46 @@ void addMaterial(moveit::planning_interface::MoveGroupInterface &group,
 
 }
 
+// rviz中 场景构造:添加传送带
+void addBelt(moveit::planning_interface::MoveGroupInterface &group,
+              moveit::planning_interface::PlanningSceneInterface &scene) {
+    std::vector<moveit_msgs::CollisionObject> objects;
+    objects.resize(1);  
+
+    //1 对 objects[0] 进行基础设置
+    objects[0].id = "belt";
+    objects[0].operation = objects[0].ADD;
+    objects[0].header.frame_id = group.getPlanningFrame();
+
+    // 位姿信息
+    geometry_msgs::Pose pose;
+    pose.position.x = 0.65;
+    pose.position.y = -0.5;
+    pose.position.z = 0;
+    pose.orientation.w = 0.707;
+    pose.orientation.x = 0.0;
+    pose.orientation.y = 0.0;
+    pose.orientation.z = -0.707;
+
+    objects[0].mesh_poses.resize(1); // objects[0]只有一个mesh
+    objects[0].mesh_poses[0].position = pose.position;
+    objects[0].mesh_poses[0].orientation = pose.orientation;
+
+    //2 dae加载
+    shapes::Mesh *m = shapes::createMeshFromResource(BELT_MESH_PATH);
+    shapes::ShapeMsg meshMsg;// meshMsg 更为通用,可以转换为三种格式: shape_msgs::SolidPrimitive, shape_msgs::Mesh, shape_msgs::Plane
+    shapes::constructMsgFromShape(m, meshMsg);
+
+    shape_msgs::Mesh mesh = boost::get<shape_msgs::Mesh>(meshMsg);// 将通用的 meshMsg 转为我们需要的 shape_msgs::Mesh
+
+    //3 继续对 objects[0] 进行属性设置
+    objects[0].meshes.resize(0);
+    objects[0].meshes.push_back(mesh);
+
+    //4 将objects 添加到 scene
+    scene.addCollisionObjects(objects);
+}
+
 
 // 对 stage 进行运动规划
 void moveStage(moveit::planning_interface::MoveGroupInterface &group) {
@@ -142,6 +183,7 @@ void moveStage(moveit::planning_interface::MoveGroupInterface &group) {
         ROS_ERROR("move stage failed!");
     }
 }
+ 
 
 // traj 为输出参数
 void getGripperJointTrajMsg(trajectory_msgs::JointTrajectory &traj, float position) {
@@ -171,7 +213,7 @@ void getGripperOpenMsg(trajectory_msgs::JointTrajectory &traj) {
 
 // traj 为输出参数
 void getGripperCloseMsg(trajectory_msgs::JointTrajectory &traj) {
-    getGripperJointTrajMsg(traj, 0.1223); // 0.86 位完全关闭
+    getGripperJointTrajMsg(traj, 0.13); // 0.86 位完全关闭
 }
 
 const float x_dis_to_obj = 0.15; // arm ee_link 原点 到 物体中心点的安全距离,eg2的夹爪的palm 长度是0.1
@@ -201,8 +243,8 @@ void pick(moveit::planning_interface::MoveGroupInterface &group) {
     //2.2 pre_grasp arm ee_link 到达上述位姿后,要做的运动
     grasps[0].pre_grasp_approach.direction.header.frame_id = group.getPlanningFrame();
     grasps[0].pre_grasp_approach.direction.vector.x = -1.0; // x 轴负向
-    grasps[0].pre_grasp_approach.min_distance =  0.02;
-    grasps[0].pre_grasp_approach.desired_distance = 0.07;
+    grasps[0].pre_grasp_approach.min_distance = 0.03;
+    grasps[0].pre_grasp_approach.desired_distance = 0.05;
 
     //2.3 打开夹爪,夹取前的 Gripper 的Msg
     getGripperOpenMsg(grasps[0].pre_grasp_posture); // 会给 pre_grasp_posture 赋值
@@ -222,6 +264,67 @@ void pick(moveit::planning_interface::MoveGroupInterface &group) {
 
 }
 
+void reUp(moveit::planning_interface::MoveGroupInterface &group) {
+    //因为gazebo导致moveit attach失败,所以需要我们手动自己 向上抬起  0.05
+    //1 设置start state
+    group.setStartState(*group.getCurrentState());
+    moveit::planning_interface::MoveGroupInterface::Plan plan;
+    
+    //2 设置target pose
+    geometry_msgs::PoseStamped curPose = group.getCurrentPose();
+    geometry_msgs::Pose p;
+    p.position.x = curPose.pose.position.x;
+    p.position.y = curPose.pose.position.y;
+    p.position.z = curPose.pose.position.z + 0.05;
+    p.orientation.w = curPose.pose.orientation.w;
+    p.orientation.x = curPose.pose.orientation.x;
+    p.orientation.y = curPose.pose.orientation.y;
+    p.orientation.z = curPose.pose.orientation.z;
+    group.setPoseTarget(p);
+    
+    //3 执行规划
+    const moveit::planning_interface::MoveItErrorCode &code = group.plan(plan);
+    if(code){
+        group.execute(plan);
+    }else{
+        ROS_ERROR("reUp motion failed");
+    }
+}
+
+
+void place(moveit::planning_interface::MoveGroupInterface &group) {
+    group.setStartStateToCurrentState(); 
+
+    //1 先沿 x轴负向 抽取出来(使用直线，这里使用CartesianPath来做)
+    std::vector<geometry_msgs::Pose> wayPoints;
+    double eff_step=0.01;
+    double jump_threshold=0.0;
+    moveit_msgs::RobotTrajectory trajectory;
+
+    // 构建wayPoints
+    geometry_msgs::Pose p = group.getCurrentPose().pose;
+    //wayPoints.push_back(p); 
+    p.position.x += 0.2;
+    wayPoints.push_back(p);
+
+    int cnt=0;
+    int max=100; // 最多重试100次
+    double rate = 0;
+    while(rate<1.0 && cnt<max ){ // 如果rate 不是100%,而且也可以重试
+        rate = group.computeCartesianPath(wayPoints,eff_step,jump_threshold,trajectory);//trajectory 为输出参数,
+        cnt++;
+    }
+    if(rate == 1.0){
+        //规划成功
+        ROS_INFO_STREAM("CartesianPaht successed,final cnt is "<<cnt); // 最终尝试了多少次
+        moveit::planning_interface::MoveGroupInterface::Plan plan;
+        plan.trajectory_ = trajectory;
+        group.execute(plan);
+    }else{
+        ROS_INFO_STREAM("CartesianPaht failed,final rate is "<<rate<<" | cnt is "<<cnt); // 最后的 rate 值
+    }
+
+}
 
 int main(int argc, char **argv) {
     //1 初始化节点
@@ -240,7 +343,7 @@ int main(int argc, char **argv) {
 
     //3 一上来先删除 shelf 和 material,方便循环调试
     mvt.prompt("remove shelf and material");
-    std::vector<std::string> ids = {"shelf", "material"};
+    std::vector<std::string> ids = {"shelf", "material","belt"};
     scene.removeCollisionObjects(ids);
 
     //4 添加物料架 (dae 文件)
@@ -252,15 +355,33 @@ int main(int argc, char **argv) {
     mvt.prompt("add material(a box)");
     addMaterial(armGroup, scene);
 
-    //6 对stage 进行运动规划
+    //6 添加传送带 (dae 文件)
+    mvt.prompt("add a belt");
+    addBelt(armGroup, scene);
+
+    //7 对stage 进行运动规划
     mvt.prompt("move stage");
     moveit::planning_interface::MoveGroupInterface stageGroup(STAGE_GROUP);
     moveStage(stageGroup);
 
-    //7 pick material
+    //8 pick material
     mvt.prompt("pick material");
     pick(armGroup);
 
+    //9 判断material是否 被attach,(gazebo中可能导致无法attach)
+    const std::map<std::string, moveit_msgs::AttachedCollisionObject> &map = scene.getAttachedObjects({"material"});
+    //for(auto i = map.begin();i!=map.end();i++){
+    //    std::cout << i->first <<"  | " << i->second << std::endl;
+    //}
+    if(map.empty()){ // 没有attach  ,需要我们手动attach,并抬起
+        mvt.prompt("re motion planning");
+        armGroup.attachObject("material"); // 默认将material attach到 ee_link
+        reUp(armGroup); // 手动抬升,再次规划
+    }
+
+    //10 place material
+    mvt.prompt("place material");
+    place(armGroup);
 
     mvt.prompt("done");
     //ros::waitForShutdown();

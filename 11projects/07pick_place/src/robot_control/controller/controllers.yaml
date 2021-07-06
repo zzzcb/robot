@@ -18,7 +18,8 @@ arm_group_controller:
         - wrist_2_joint
         - wrist_3_joint
     constraints:
-        goal_time: 0.6
+        goal_time: 1.0
+        stopped_velocity_tolerance: 0
         shoulder_pan_joint: {trajectory: 0.1, goal: 0.25}
         shoulder_lift_joint: {trajectory: 0.1, goal: 0.25}
         elbow_joint  : {trajectory: 0.1, goal: 0.25}
@@ -34,8 +35,9 @@ gripper_group_controller:
         - Link2
         - Link22
     constraints:
-        goal_time: 0.6
-        Link1: {trajectory: 0.1, goal: 0.25}
-        Link11: {trajectory: 0.1, goal: 0.25}
-        Link2: {trajectory: 0.1, goal: 0.25}
-        Link22: {trajectory: 0.1, goal: 0.25}
+        goal_time: 1.0
+        stopped_velocity_tolerance: 0
+        Link1: {trajectory: 0.1, goal: 0.1}
+        Link11: {trajectory: 0.1, goal: 0.1}
+        Link2: {trajectory: 0.1, goal: 0.1}
+        Link22: {trajectory: 0.1, goal: 0.1}

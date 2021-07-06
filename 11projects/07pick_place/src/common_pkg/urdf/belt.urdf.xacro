@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="belt">
+
+    <xacro:property name="belt_x" value="0.2" />
+    <xacro:property name="belt_y" value="1" />
+    <xacro:property name="belt_z" value="0.2" />
+    <xacro:property name="belt_mass" value="2" />
+
+    <link name="belt_link">
+
+        <inertial>
+            <origin xyz="0 0 ${belt_z/2}"/>
+            <mass value="${belt_mass}" />
+            <inertia 
+                ixx="${1/12*belt_mass*(belt_y*belt_y+belt_z*belt_z)}" 
+                iyy="${1/12*belt_mass*(belt_x*belt_x+belt_z*belt_z)}" 
+                izz="${1/12*belt_mass*(belt_x*belt_x+belt_y*belt_y)}" 
+                ixy="0" ixz="0" iyz="0"/>
+
+        </inertial>
+
+        <visual>
+            <geometry>
+                <mesh filename="package://common_pkg/meshes/belt.dae" />
+            </geometry>
+        </visual>
+
+        <collision>
+            <geometry>
+                <mesh filename="package://common_pkg/meshes/belt.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="world" />
+    <joint name="fix_belt_joint" type="fixed">
+        <parent link="world"/>
+        <child link="belt_link" />
+        <origin rpy="0 0 -${pi/2}"/>
+    </joint>
+
+    <gazebo reference="belt_link">
+        <belt>Gazebo/Purple</belt>
+        <mu1>0</mu1> <!-- 0 friction -->
+        <mu2>0</mu2>
+    </gazebo>
+
+</robot>
