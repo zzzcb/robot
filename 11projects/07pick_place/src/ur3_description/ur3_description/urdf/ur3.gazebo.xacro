@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:macro name="arm_gazebo" params="refer">
+        <gazebo reference="${refer}">
+            <selfCollide>true</selfCollide>
+            <mu1>0.2</mu1>
+            <mu2>0.2</mu2>
+            <kp>1000000.0</kp>
+            <kd>1.0</kd>
+        </gazebo>
+    </xacro:macro>
+
+</robot>
+

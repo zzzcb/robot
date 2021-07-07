@@ -17,6 +17,7 @@
                 izz="${1/12*box_mass*(box_x*box_x+box_y*box_y)}" 
                 ixy="0" ixz="0" iyz="0"/>
 
+
         </inertial>
 
         <visual>

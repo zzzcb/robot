@@ -186,7 +186,7 @@ void moveStage(moveit::planning_interface::MoveGroupInterface &group) {
  
 
 // traj 为输出参数
-void getGripperJointTrajMsg(trajectory_msgs::JointTrajectory &traj, float position) {
+void getGripperJointTrajMsg(trajectory_msgs::JointTrajectory &traj, double position) {
     //open  状态时 四个joint的大小  0.86,-0.86,-0.86,0.86
     //close 状态时 四个joint的大小  0.02,-0.02,-0.02,0.02
     traj.joint_names.resize(4);
@@ -208,12 +208,12 @@ void getGripperJointTrajMsg(trajectory_msgs::JointTrajectory &traj, float positi
 
 // traj 为输出参数
 void getGripperOpenMsg(trajectory_msgs::JointTrajectory &traj) {
-    getGripperJointTrajMsg(traj, 0.02); // 0.02为完全打开
+    getGripperJointTrajMsg(traj, 0.02); 
 }
 
 // traj 为输出参数
 void getGripperCloseMsg(trajectory_msgs::JointTrajectory &traj) {
-    getGripperJointTrajMsg(traj, 0.13); // 0.86 位完全关闭
+    getGripperJointTrajMsg(traj, 0.135); // 0.86 位完全关闭
 }
 
 const float x_dis_to_obj = 0.15; // arm ee_link 原点 到 物体中心点的安全距离,eg2的夹爪的palm 长度是0.1
@@ -240,7 +240,7 @@ void pick(moveit::planning_interface::MoveGroupInterface &group) {
     grasps[0].grasp_pose.pose.orientation.y = qua.y();
     grasps[0].grasp_pose.pose.orientation.z = qua.z();
 
-    //2.2 pre_grasp arm ee_link 到达上述位姿后,要做的运动
+    //2.2 接近 shelf 的姿势
     grasps[0].pre_grasp_approach.direction.header.frame_id = group.getPlanningFrame();
     grasps[0].pre_grasp_approach.direction.vector.x = -1.0; // x 轴负向
     grasps[0].pre_grasp_approach.min_distance = 0.03;
@@ -252,7 +252,7 @@ void pick(moveit::planning_interface::MoveGroupInterface &group) {
     //2.4 关闭夹爪,夹取后的 Gripper 的Msg
     getGripperCloseMsg(grasps[0].grasp_posture); // 会给 grasp_posture 赋值
 
-    //2.4 关闭夹爪后,要做的运动
+    //2.4 离开 shelf 的姿势
     grasps[0].post_grasp_retreat.direction.header.frame_id = group.getPlanningFrame();
     grasps[0].post_grasp_retreat.direction.vector.z = 1.0; // z 轴正向
     grasps[0].post_grasp_retreat.min_distance = 0.05;
@@ -291,13 +291,72 @@ void reUp(moveit::planning_interface::MoveGroupInterface &group) {
     }
 }
 
+void moveToBelt(moveit::planning_interface::MoveGroupInterface &group) {
+    //1 滑轨先移动到 -0.2(y)
+    float slide_tar_y =  -0.2;
+    std::vector<double> jointValues;
+    jointValues = group.getCurrentJointValues();
+    jointValues[0] = slide_tar_y;
+    group.setJointValueTarget(jointValues);
+
+    
+    moveit::planning_interface::MoveGroupInterface::Plan plan;
+    const moveit::planning_interface::MoveItErrorCode &code = group.plan(plan);
+    if(code){ // 规划成功
+        group.execute(plan);
+    }else{
+        std::cout<<"移动到传送带附近失败..." << std::endl;
+    }
+
+}
 
 void place(moveit::planning_interface::MoveGroupInterface &group) {
+    group.allowReplanning(true);
+    //group.setGoalPositionTolerance(0.01);//m
+    //group.setGoalOrientationTolerance(0.01);//rad
+
+    // 1、放置物体的位置
+    std::vector<moveit_msgs::PlaceLocation> places;
+    places.resize(1);
+    places[0].place_pose.header.frame_id=group.getPlanningFrame();
+
+    tf2::Quaternion qua;
+    qua.setRPY(0,0,M_PI);
+    places[0].place_pose.pose.orientation.w=qua.w();
+    places[0].place_pose.pose.orientation.x=qua.x();
+    places[0].place_pose.pose.orientation.y=qua.y();
+    places[0].place_pose.pose.orientation.z=qua.z();
+
+    places[0].place_pose.pose.position.x= 0.5;
+    places[0].place_pose.pose.position.y= -0.5;
+    places[0].place_pose.pose.position.z= 0.2 + box_z/2;
+    
+    // 2、接近传送带的 姿势 
+    places[0].pre_place_approach.direction.header.frame_id=group.getPlanningFrame();
+    places[0].pre_place_approach.direction.vector.x=1.0;
+    places[0].pre_place_approach.min_distance=0.05;
+    places[0].pre_place_approach.desired_distance=0.08;
+
+    // 3、打开夹⼦
+    getGripperOpenMsg(places[0].post_place_posture);
+
+    // 4、离开传送带的 姿势 
+    places[0].post_place_retreat.direction.header.frame_id=group.getPlanningFrame();
+    places[0].post_place_retreat.direction.vector.x=-1.0;
+    places[0].post_place_retreat.min_distance=0.08;
+    places[0].post_place_retreat.desired_distance=0.12;
+
+    group.setSupportSurfaceName("belt");
+    group.place("material",places);
+}
+
+void take_out(moveit::planning_interface::MoveGroupInterface &group) {
+
     group.setStartStateToCurrentState(); 
 
-    //1 先沿 x轴负向 抽取出来(使用直线，这里使用CartesianPath来做)
+    //1 先沿 x轴负向 抽取出来
     std::vector<geometry_msgs::Pose> wayPoints;
-    double eff_step=0.01;
+    double eff_step=0.005;
     double jump_threshold=0.0;
     moveit_msgs::RobotTrajectory trajectory;
 
@@ -320,10 +379,10 @@ void place(moveit::planning_interface::MoveGroupInterface &group) {
         moveit::planning_interface::MoveGroupInterface::Plan plan;
         plan.trajectory_ = trajectory;
         group.execute(plan);
+
     }else{
         ROS_INFO_STREAM("CartesianPaht failed,final rate is "<<rate<<" | cnt is "<<cnt); // 最后的 rate 值
     }
-
 }
 
 int main(int argc, char **argv) {
@@ -379,8 +438,16 @@ int main(int argc, char **argv) {
         reUp(armGroup); // 手动抬升,再次规划
     }
 
-    //10 place material
-    mvt.prompt("place material");
+    //10 take out material,拿出一段距离
+    mvt.prompt("take out material a distance");
+    take_out(armGroup); 
+
+    //11 移动到传送带附近
+    mvt.prompt("move to belt neighbor");
+    moveToBelt(stageGroup);
+
+    //12 放置物料
+    mvt.prompt("place material to belt");
     place(armGroup);
 
     mvt.prompt("done");

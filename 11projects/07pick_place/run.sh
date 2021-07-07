@@ -26,7 +26,7 @@ sleep 11 &&
 
 # load rviz,手点就可以进行运动规划
 x-terminal-emulator -e roslaunch robot_moveit_config moveit_rviz.launch
-sleep 13 &&
+sleep 11 &&
 
 # 自己手写的运动规划c++代码
 x-terminal-emulator -e rosrun common_pkg load_scene_motion_planning

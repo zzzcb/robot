@@ -6,7 +6,7 @@ stage_group_controller:
         goal_time: 0.6
         stage_slide_joint: {trajectory: 0.1, goal: 0.25}
     gains:
-        stage_slide_joint: {p: 1000,  d: 1, i: 1, i_clamp: 1}
+        stage_slide_joint: {p: 5000,i: 1, d: 200, i_clamp: 1}
  
 arm_group_controller:
     type: position_controllers/JointTrajectoryController
@@ -37,7 +37,7 @@ gripper_group_controller:
     constraints:
         goal_time: 1.0
         stopped_velocity_tolerance: 0
-        Link1: {trajectory: 0.1, goal: 0.1}
-        Link11: {trajectory: 0.1, goal: 0.1}
-        Link2: {trajectory: 0.1, goal: 0.1}
-        Link22: {trajectory: 0.1, goal: 0.1}
+        Link1: {trajectory: 0.1, goal: 0.25}
+        Link11: {trajectory: 0.1, goal: 0.25}
+        Link2: {trajectory: 0.1, goal: 0.25}
+        Link22: {trajectory: 0.1, goal: 0.25}

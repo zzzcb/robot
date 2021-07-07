@@ -15,6 +15,18 @@
 
  common_pkg包为 一些其他功能(在gazebo 加载货架,物料,传送带;在rviz中加载货架,物料,传送带)
 
+# 关于PID调试
+Here are typical steps for setting PID gains empirically (aka by trial and error):
+
+1. Increase your P gain until the actual value reaches the desired value in the desired amount of time (rise time). This will typically result in large oscillations that take a while to settle down... but that will be fixed later. For now, just focus on rise time. Make sure that your P is low enough that the system remains stable (aka the oscillations die off after a certain amount of time). If your actual value will not reach your desired value no matter how high you set your P gain, skip to step 3.
+
+2. Increase your D gain to reduce the oscillations until you reach your desired settling time (aka the time it takes for the oscillations to fall below +/- 5% of the desired value). Be careful here, D gains are very sensitive and can cause very noisy responses, especially when you are working with a discrete system with relatively large time steps (like in simulation).
+
+3. If your system has steady state error (aka no value of P gain can get the actual value to reach the desired value), start increasing your I gain until the steady state error disappears in a satisfactory amount of time.
+4. Repeat steps 1-3 to continuously fine tune the PID controller.
+
+The general idea here is to start with small gains, and run through these steps several times, changing the gains a little bit each time. Hope that helps!
+
 
 # Moveit 结合gazebo时容易出错,有以下错误:
 1 GOAL_TOLERANCE_VIOLATED    
