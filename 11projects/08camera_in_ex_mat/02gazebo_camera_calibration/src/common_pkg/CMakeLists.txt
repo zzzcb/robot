@@ -148,6 +148,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(01camera_in_collect_img src/01camera_in_collect_img.cpp)
 add_executable(02camera_in_calibration src/02camera_in_calibration.cpp)
+add_executable(03undistort src/03undistort.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -167,9 +168,12 @@ target_link_libraries(01camera_in_collect_img
 )
 
 target_link_libraries(02camera_in_calibration
-        ${catkin_LIBRARIES}
         ${OpenCV_LIBS}
 )
+
+target_link_libraries(03undistort
+        ${OpenCV_LIBS}
+        )
 
 #############
 ## Install ##
