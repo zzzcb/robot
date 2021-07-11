@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="robot" >
+    <!-- common gazebo -->
+    <xacro:include filename="$(find camera_ex_cali_eyeonhand_pkg)/urdf/common.gazebo.xacro" />
+
+    <!-- load arm -->
+    <xacro:include filename="$(find ur3_description)/urdf/ur3.urdf.xacro" />
+    <xacro:ur3_robot prefix="" joint_limited="true"/>
+    <!-- fixed ur arm in gazebo -->
+    <link name="world" />
+    <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link" />
+    </joint>
+
+    <!-- load kinect -->
+    <xacro:include filename="$(find camera_in_cali_pkg)/urdf/kinect.urdf.xacro" />
+    <!-- fixed kinect to arm -->
+    <joint name="arm_kinect" type="fixed">
+        <parent link="ee_link"/>
+        <child link="kinect_link" />
+        <origin xyz="0.02 0 0.08"/>
+    </joint>
+
+    <!-- load chessboard -->
+    <xacro:include filename="$(find camera_ex_cali_eyeonhand_pkg)/urdf/chessboard.urdf.xacro" /> -->
+    <!-- fixed chessboard in gazebo -->
+    <joint name="chessboard_world" type="fixed">
+        <parent link="world"/>
+        <child link="chessboard_link" />
+        <origin rpy="${pi/2} 0 0" xyz="0 0.8 0.6"/>
+    </joint> 
+
+
+
+
+</robot>

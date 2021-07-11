@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: camera_ex_cali_eyeonhand_pkg
+    relative_path: urdf/robot.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/robot.srdf
+  CONFIG:
+    author_name: zcb
+    author_email: 17096218@stu.nchu.edu.cn
+    generated_timestamp: 1625896066

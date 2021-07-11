@@ -1,0 +1,11 @@
+<launch>
+    <param name="kinect_description" command="$(find xacro)/xacro --inorder '$(find camera_in_cali_pkg)/urdf/kinect.urdf.xacro'" />
+    <param name="chessboard_description" command="$(find xacro)/xacro --inorder '$(find camera_in_cali_pkg)/urdf/chessboard.urdf.xacro'" />
+
+    <!-- spawn kinect in gazebo-->
+    <node name="spawn_kinect" pkg="gazebo_ros" type="spawn_model" args="-urdf -param kinect_description -model kinect" respawn="false" output="screen" />
+
+    <!-- spawn chessboard in gazebo-->
+    <node name="spawn_chessboard" pkg="gazebo_ros" type="spawn_model" args="-urdf -param chessboard_description -model chessboard" respawn="false" output="screen" />
+
+</launch>

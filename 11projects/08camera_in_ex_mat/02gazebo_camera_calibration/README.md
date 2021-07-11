@@ -2,9 +2,8 @@
 
 在gazebo中进行相机的内外参标定
 
-使用方法:
-    1， ./run.sh
-    2, rosrun common_pkg 01_in_calibration_collect_img 收集图片
-    3, 
+./run.sh 相机内参标定的gazebo场景
+./run2.sh 相机外参标定的gazebo场景(眼在手上)
+./run3.sh 相机外参标定的gazebo场景(眼在手外) 没有弄
 
 
