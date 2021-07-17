@@ -13,6 +13,7 @@ if __name__ == "__main__":
     process_1 = multiprocessing.Process(target=process_a)
 
     process_1.start()
+    # process_1.join() # 如果join,就会将process_a 从process table 清理出来，就不会有Zombie Process出现了
 
     time.sleep(100)
     print("main process")
