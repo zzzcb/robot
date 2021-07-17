@@ -1,0 +1,17 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.9967578149810252 0.0703582944960292 0.039032917772851006 0.8265410447878259
+  position 0.09819812006625454 1.3568492172395688 1.1565570519596093
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+E-puck {
+  controller "ros"
+  controllerArgs "--name=epuck"
+}

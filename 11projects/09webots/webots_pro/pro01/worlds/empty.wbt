@@ -1,0 +1,25 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.03655274104432653 0.9965881810797911 -0.07399928684940037 1.7545918803538638
+  position 2.216483364978869 -0.29727752071353003 -0.299473269324532
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+}
+Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0.2
+      }
+      geometry Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+}

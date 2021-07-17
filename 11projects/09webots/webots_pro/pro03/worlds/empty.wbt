@@ -1,0 +1,87 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.3212022153571999 0.8893764706205053 0.32532849607164843 1.5295799830727954
+  position 1.5304439618674726 1.1857361541063298 0.2430923791200324
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 0 0 -0.01
+}
+Solid {
+  translation 0 0.21 0.21
+  children [
+    Transform {
+      translation 0 0 -0.17
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Cylinder {
+            height 0.2
+            radius 0.05
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0 -0.33
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Sphere {
+            radius 0.1
+          }
+        }
+      ]
+    }
+    Shape {
+      appearance PBRAppearance {
+      }
+      geometry Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 -0.17
+        rotation 1 0 0 1.57
+        children [
+          Shape {
+            geometry Cylinder {
+              height 0.2
+              radius 0.06
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 -0.33
+        children [
+          Shape {
+            geometry Sphere {
+              radius 0.11
+            }
+          }
+        ]
+      }
+      Sphere {
+        radius 0.11
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 2
+  }
+}
