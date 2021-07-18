@@ -1,7 +1,9 @@
 import threading,time
 
 def thread_a():
-    print("thread_a")
+    while True:
+        time.sleep(1)
+        print("thread_a")
 
 if __name__ == "__main__":
     thread_a = threading.Thread(target=thread_a)
@@ -9,6 +11,4 @@ if __name__ == "__main__":
     thread_a.start()
     print("main_thread")
 
-    time.sleep(3)
-    print(threading.enumerate())
     time.sleep(3)
