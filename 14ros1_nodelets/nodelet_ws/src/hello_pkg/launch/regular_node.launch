@@ -1,0 +1,9 @@
+<launch>
+
+  <node pkg="nodelet" type="nodelet" name="Fuck"
+        args="standalone hello_pkg/Fuck">
+  </node>
+  <node pkg="nodelet" type="nodelet" name="Fuck2" 
+        args="standalone hello_pkg/Fuck2">
+  </node>
+</launch>

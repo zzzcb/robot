@@ -1,0 +1,10 @@
+<launch>
+
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager1"  args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="Fuck"
+        args="load hello_pkg/Fuck nodelet_manager1">
+  </node>
+  <node pkg="nodelet" type="nodelet" name="Fuck2" 
+        args="load hello_pkg/Fuck2 nodelet_manager1">
+  </node>
+</launch>

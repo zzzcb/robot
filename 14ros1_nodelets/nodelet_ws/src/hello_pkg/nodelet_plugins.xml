@@ -1,0 +1,13 @@
+<library path="lib/libfuck">
+    <class name="hello_pkg/Fuck" type="hello_pkg_ns::Fuck" base_class_type="nodelet::Nodelet">
+        <description>
+            This is fuck nodelet.
+        </description>
+    </class>
+
+    <class name="hello_pkg/Fuck2" type="hello_pkg_ns2::Fuck2" base_class_type="nodelet::Nodelet">
+        <description>
+            This is fuck2 nodelet.
+        </description>
+    </class>
+</library>
