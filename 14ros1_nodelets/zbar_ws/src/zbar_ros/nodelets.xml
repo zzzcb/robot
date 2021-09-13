@@ -1,0 +1,21 @@
+<library path="lib/libbarcode_reader_nodelet">
+
+    <class name="just_a_name"
+           type="zbar_ros::BarcodeReaderNodelet"
+           base_class_type="nodelet::Nodelet">
+        <description>
+            BarcodeReader Nodelet sub image and pub barcode
+        </description>
+    </class>
+
+
+    <class name="just_a_name2"
+           type="zbar_ros::CameraNodelet"
+           base_class_type="nodelet::Nodelet">
+        <description>
+            Camera Nodelet pub image
+        </description>
+    </class>
+
+
+</library>

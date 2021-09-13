@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node pkg="usb_cam" type="usb_cam_node" name="usb_cam_node">
+        <remap from="/usb_cam_node/image_raw" to="/image"/>
+    </node>
+
+    <node pkg="zbar_ros" type="barcode_reader_node" name="barcode_reader">
+    </node>
+
+</launch>
